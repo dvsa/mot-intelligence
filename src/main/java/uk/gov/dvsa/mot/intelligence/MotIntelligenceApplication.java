@@ -1,6 +1,7 @@
 package uk.gov.dvsa.mot.intelligence;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -19,6 +20,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     @Override
     public void initialize(Bootstrap<MotIntelligenceConfiguration> bootstrap) {
         bootstrap.addBundle(new ViewBundle<>());
+        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/mot/intelligence/assets", "/assets"));
     }
 
     @Override

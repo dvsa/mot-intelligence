@@ -36,12 +36,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile (
         'io.dropwizard:dropwizard-core:' + dropwizardVersion,
-<<<<<<< HEAD
-        'io.dropwizard:dropwizard-views-mustache:' + dropwizardVersion,
-        'io.dropwizard:dropwizard-views-freemarker:' + dropwizardVersion,
-=======
-        'io.codemonastery:dropwizard-views-handlebars:1.0.0.0',
->>>>>>> b31e0e7... BL-4492 replaced free marker with handlebars
+        'io.codemonastery:dropwizard-views-handlebars:1.0.0.0'
     )
 }
 

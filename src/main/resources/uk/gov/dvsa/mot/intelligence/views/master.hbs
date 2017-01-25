@@ -128,17 +128,25 @@
                         </span>
 
                         <span class="content-header__title">
-                            Report MOT fraud
+                            {{#block "title"}}
+
+                            {{/block}}
                         </span>
 
                     </h1>
 
                 </header>
                 <div class="text">
-                    {{#block "content"}}
+                    <p class="lede">
+                        {{#block "lede"}}
 
-                    {{/block}}
+                        {{/block}}
+                    </p>
                 </div>
+
+            {{#block "content"}}
+
+            {{/block}}
         </main>
     <!-- / #content -->
 

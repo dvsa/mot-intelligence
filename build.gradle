@@ -28,15 +28,26 @@ buildscript {
     }
 }
 
+sourceSets {
+    test {
+        java.srcDir 'src/test/unit/java'
+        resources.srcDir 'src/test/unit/resources'
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile (
+            'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
+            'org.mockito:mockito-core:1.10.19',
+    )
     compile (
         'io.dropwizard:dropwizard-core:' + dropwizardVersion,
         'io.dropwizard:dropwizard-assets:' + dropwizardVersion,
+
         'io.codemonastery:dropwizard-views-handlebars:1.0.0.0'
     )
 }

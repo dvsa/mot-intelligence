@@ -1,9 +1,9 @@
-package uk.gov.dvsa.mot.intelligence.views;
+package uk.gov.dvsa.moti.web.views;
 
 import io.dropwizard.views.View;
-import uk.gov.dvsa.mot.intelligence.form.FraudForm;
-import uk.gov.dvsa.mot.intelligence.form.element.FormElement;
-import uk.gov.dvsa.mot.intelligence.model.FraudModel;
+import uk.gov.dvsa.moti.web.form.FraudForm;
+import uk.gov.dvsa.moti.web.form.element.FormElement;
+import uk.gov.dvsa.moti.web.model.FraudModel;
 
 public class FraudFormView extends View {
     private FraudForm form;

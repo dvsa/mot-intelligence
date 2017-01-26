@@ -1,4 +1,4 @@
-package uk.gov.dvsa.mot.intelligence.form.element;
+package uk.gov.dvsa.moti.web.form.element;
 
 public class FormElement {
     private String name;

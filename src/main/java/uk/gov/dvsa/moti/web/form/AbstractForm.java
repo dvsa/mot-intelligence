@@ -1,6 +1,6 @@
-package uk.gov.dvsa.mot.intelligence.form;
+package uk.gov.dvsa.moti.web.form;
 
-import uk.gov.dvsa.mot.intelligence.form.element.FormElement;
+import uk.gov.dvsa.moti.web.form.element.FormElement;
 
 import javax.validation.Validation;
 import javax.validation.Validator;

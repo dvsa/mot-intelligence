@@ -1,4 +1,4 @@
-package uk.gov.dvsa.mot.intelligence;
+package uk.gov.dvsa.moti.web;
 
 import io.dropwizard.Configuration;
 

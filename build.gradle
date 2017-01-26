@@ -10,7 +10,7 @@ apply plugin: 'java'
 apply plugin: 'gradle-one-jar'
 apply plugin: 'application'
 
-mainClassName = 'uk.gov.dvsa.mot.intelligence.MotIntelligenceApplication'
+mainClassName = 'uk.gov.dvsa.moti.web.MotIntelligenceApplication'
 
 sourceCompatibility = 1.8
 

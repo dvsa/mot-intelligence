@@ -1,4 +1,4 @@
-package uk.gov.dvsa.mot.intelligence.model;
+package uk.gov.dvsa.moti.web.model;
 
 
 import org.hibernate.validator.constraints.NotBlank;

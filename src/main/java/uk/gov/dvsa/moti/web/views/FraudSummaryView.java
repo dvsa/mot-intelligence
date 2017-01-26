@@ -1,4 +1,4 @@
-package uk.gov.dvsa.mot.intelligence.views;
+package uk.gov.dvsa.moti.web.views;
 
 import io.dropwizard.views.View;
 

@@ -1,6 +1,7 @@
-package uk.gov.dvsa.mot.intelligence.form;
+package uk.gov.dvsa.moti.web.form;
 
-import uk.gov.dvsa.mot.intelligence.model.FraudModel;
+import uk.gov.dvsa.moti.web.model.FraudModel;
+
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 

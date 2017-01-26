@@ -1,12 +1,10 @@
-package uk.gov.dvsa.mot.intelligence.resource;
+package uk.gov.dvsa.moti.web.resource;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import uk.gov.dvsa.mot.intelligence.form.FraudForm;
-import uk.gov.dvsa.mot.intelligence.model.FraudModel;
-import uk.gov.dvsa.mot.intelligence.views.FraudFormView;
-import uk.gov.dvsa.mot.intelligence.views.FraudSummaryView;
+import uk.gov.dvsa.moti.web.form.FraudForm;
+import uk.gov.dvsa.moti.web.model.FraudModel;
+import uk.gov.dvsa.moti.web.views.FraudFormView;
+import uk.gov.dvsa.moti.web.views.FraudSummaryView;
 
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

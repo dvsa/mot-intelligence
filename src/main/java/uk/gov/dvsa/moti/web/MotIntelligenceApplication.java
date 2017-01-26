@@ -1,4 +1,4 @@
-package uk.gov.dvsa.mot.intelligence;
+package uk.gov.dvsa.moti.web;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -7,7 +7,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import org.eclipse.jetty.server.session.SessionHandler;
-import uk.gov.dvsa.mot.intelligence.resource.MotFraudResource;
+import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 
 public class MotIntelligenceApplication extends Application<MotIntelligenceConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -22,7 +22,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     @Override
     public void initialize(Bootstrap<MotIntelligenceConfiguration> bootstrap) {
         bootstrap.addBundle(new ViewBundle<>());
-        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/mot/intelligence/assets", "/assets"));
+        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
     }
 
     @Override

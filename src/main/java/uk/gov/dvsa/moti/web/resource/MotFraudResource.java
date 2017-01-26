@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
+import java.util.UUID;
 
 @Path("/fraud")
 @Produces(MediaType.TEXT_HTML)
@@ -19,30 +20,34 @@ public class MotFraudResource {
     }
 
     @GET
-    public FraudFormView displayForm(@QueryParam("formUuid") String formUuid) {
-        FraudForm form = new FraudForm(new FraudModel());
+    public FraudFormView displayForm(@QueryParam("formUuid") String formUuid, @BeanParam SessionResource sessionResource) {
+        FraudForm form = getFraudForm(formUuid, sessionResource);
+
         return new FraudFormView(form);
     }
 
     @POST
-    public Response validateForm(@BeanParam FraudModel fraud) {
+    public Response validateForm( @QueryParam("formUuid") String formUuid, @BeanParam FraudModel fraud, @BeanParam SessionResource sessionResource) {
         FraudForm form = new FraudForm(fraud);
 
         if (form.isValid()) {
-            //save data
+            formUuid = generateUuidIfNull(formUuid);
+            sessionResource.save(formUuid, fraud);
 
-            return redirectTo("fraud/summary");
+            return redirectTo("fraud/summary",formUuid);
         }
 
         return Response.ok(new FraudFormView(form)).build();
     }
 
     @GET
-    @Path("/summary")
-    public Response displaySummary(@QueryParam("formUuid") String formUuid) {
-        FraudForm form = new FraudForm(new FraudModel());
+    @Path("summary")
+    public Response displaySummary(@QueryParam("formUuid") String formUuid, @BeanParam SessionResource sessionResource) {
+        FraudModel model = getModel(formUuid, sessionResource);
+        FraudForm form = new FraudForm(model);
         if (form.isValid() == false) {
-            return redirectTo("/fraud");
+            formUuid = generateUuidIfNull(formUuid);
+            return redirectTo("/fraud", formUuid);
         }
 
         return Response.ok(new FraudSummaryView()).build();
@@ -56,5 +61,27 @@ public class MotFraudResource {
     private Response redirectTo(String path) {
         URI uri = UriBuilder.fromUri(path).build();
         return Response.seeOther(uri).build();
+    }
+
+    private FraudForm getFraudForm(String formUuid, SessionResourceInterface sessionResource) {
+        FraudModel fraudModel = getModel(formUuid, sessionResource);
+
+        return new FraudForm(fraudModel);
+    }
+
+    private FraudModel getModel(String formUuid, SessionResourceInterface sessionResource) {
+        FraudModel model = (FraudModel) sessionResource.get((formUuid));
+        if (model == null) {
+            model = new FraudModel();
+        }
+
+        return model;
+    }
+
+    private String generateUuidIfNull(String formUuid) {
+        if (formUuid == null) {
+            formUuid = UUID.randomUUID().toString();
+        }
+        return formUuid;
     }
 }

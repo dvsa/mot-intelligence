@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.ws.rs.FormParam;
 
-public class FraudModel {
+public class FraudModel implements FraudInterface {
     public static final String PARAM_VEHICLE_REG = "vehicleReg";
     public static final String PARAM_VEHICLE_MAKE = "vehicleMake";
     public static final String PARAM_VEHICLE_MODEL = "vehicleModel";

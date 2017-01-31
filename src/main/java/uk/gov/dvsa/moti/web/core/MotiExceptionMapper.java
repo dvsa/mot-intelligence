@@ -13,9 +13,9 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-public class RuntimeExceptionMapper implements ExceptionMapper<Exception> {
+public class MotiExceptionMapper implements ExceptionMapper<Exception> {
 
-    private static Logger logger = LoggerFactory.getLogger(RuntimeExceptionMapper.class);
+    private static Logger logger = LoggerFactory.getLogger(MotiExceptionMapper.class);
 
     @Override
     public Response toResponse(Exception e) {

@@ -7,6 +7,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import org.eclipse.jetty.server.session.SessionHandler;
+import uk.gov.dvsa.moti.web.core.DefaultResource;
 import uk.gov.dvsa.moti.web.core.RuntimeExceptionMapper;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 
@@ -23,13 +24,17 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     @Override
     public void initialize(Bootstrap<MotIntelligenceConfiguration> bootstrap) {
         bootstrap.addBundle(new ViewBundle<>());
-        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
+        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets", "404"));
     }
 
     @Override
     public void run(MotIntelligenceConfiguration configuration, Environment environment) {
         final MotFraudResource fraudResource = new MotFraudResource();
         environment.jersey().register(fraudResource);
+
+        final DefaultResource defaultResource = new DefaultResource();
+        environment.jersey().register(defaultResource);
+
         environment.jersey().register(SessionFactoryProvider.class);
         environment.jersey().register(RuntimeExceptionMapper.class);
         environment.servlets().setSessionHandler(new SessionHandler());

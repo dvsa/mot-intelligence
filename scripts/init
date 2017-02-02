@@ -1,0 +1,151 @@
+#!/bin/bash
+
+#chkconfig: - 95 15
+
+# Provides: Intelligence Service
+# Required-Start:
+# Required-Stop:
+# Default-Start: 3
+# Default-Stop: 0 1 6
+# Short-Description: Start, stop and status intelligence Service.
+
+#Service specific variables
+SERVICE_NAME="moti-webapp"
+JAR_NAME="moti-webapp-all.jar"
+##
+
+#Universal variables:
+PIDFILE="/var/run/$SERVICE_NAME.pid"
+JAVA_PATH=$(rpm -ql $(rpm -qa | grep java-1.8.0-openjdk-headless) | grep -E "bin/java$") #TODO Fix this, this is ugly
+HOME_DIR="/opt/dvsa/$SERVICE_NAME"
+APP_PATH="$HOME_DIR/lib/$JAR_NAME"
+CONFIG_PATH="$HOME_DIR/conf/mot-intelligence.yml"
+LOGGING_PATH="$HOME_DIR/conf/log4j.properties"
+LOG_FILE="/var/log/dvsa/$SERVICE_NAME.log"
+#LOCKFILE="/var/run/$SERVICE_NAME.lock"
+USER="$SERVICE_NAME"
+##
+
+
+check_the_pid()
+{
+  ACT_PID=`pgrep java -u $SERVICE_NAME`
+  if [ -f $PIDFILE ]
+  then
+    PID=`cat $PIDFILE`
+  else
+    PID=""
+  fi
+  if [ -z "$ACT_PID" ]
+  then
+    #No running pid, app is stopped. Removing the PID file, if it exists
+    if [ -f $PIDFILE ]
+      then
+      rm -f $PIDFILE
+    fi
+  else
+    #APP is running
+    if [ "$ACT_PID" != "$PID" ]
+    then
+      #The PID in file is wrong, overriding
+      echo $ACT_PID > $PIDFILE
+    fi
+  fi
+}
+
+
+start() {
+  echo "Starting $SERVICE_NAME:"
+  JAVA_ARG="$JAVA_PATH -Dlog4j.configuration=$LOGGING_PATH -jar $APP_PATH server $CONFIG_PATH"
+  daemonize -c $HOME_DIR -p $PIDFILE -u $USER -v -a $JAVA_ARG
+  #Wait and check if the app has started
+  sleep 2s
+  ACT_PID=`pgrep java -u $SERVICE_NAME`
+  if [ -z "$ACT_PID" ]
+  then
+    echo "$SERVICE_NAME failed to start"
+    return 255
+  else
+    echo "SUCCESS"
+  fi
+}
+
+check_and_start() {
+  #Check if app is running using PIDFILE and pgrep, start if it not running
+  # Updating the PIDFILE
+  check_the_pid
+  if [ -f $PIDFILE ]
+  then
+     PID=`cat $PIDFILE`
+     echo "$SERVICE_NAME is already running with PID: $PID"
+  else
+    start
+  fi
+}
+
+stop() {
+  echo "Stopping $SERVICE_NAME:"
+  if [ -f $PIDFILE ]; then
+    kill `cat $PIDFILE`
+    echo "SUCCESS"
+    rm -f $PIDFILE
+  else
+    echo "$SERVICE_NAME is not running."
+  fi
+}
+
+hard_stop() {
+  echo "Stopping $SERVICE_NAME:"
+  if [ -f $PIDFILE ]; then
+    kill -9 `cat $PIDFILE`
+    echo "SUCCESS"
+    rm -f $PIDFILE
+  else
+    echo "$SERVICE_NAME is not running."
+  fi
+}
+
+check_and_stop() {
+  # Check if app is running using PID and pgrep, stop it if neccessary
+  check_the_pid
+  stop
+}
+
+status() {
+  if [ -f $PIDFILE ]; then
+    echo " $SERVICE_NAME is already running with PID `cat $PIDFILE`."
+  else
+    echo " $SERVICE_NAME is stopped."
+    return 255;
+  fi
+}
+
+check_and_status() {
+  check_the_pid
+  status
+}
+
+case "$1" in
+  start)
+    check_and_start
+    ;;
+  stop)
+    check_and_stop
+    ;;
+  restart)
+    check_and_stop
+    sleep 3s
+    check_and_start
+    ;;
+  status)
+    check_and_status
+    ;;
+  reload)
+    check_and_stop
+    sleep 3s
+    check_and_start
+    ;;
+  *)
+  echo "Usage: {start | stop | restart}"
+esac
+

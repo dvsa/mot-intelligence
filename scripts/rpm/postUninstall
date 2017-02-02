@@ -1,0 +1,29 @@
+# $1 value gets 0 when erase install and 1 when update
+# User and group
+set -o nounset
+USER=moti-webapp
+GROUP=moti-webapp
+DIR=/opt/dvsa/moti-webapp
+CONF_DIR=/etc/dvsa/moti-webapp
+APP=moti-webapp
+if [ $1 -eq 0 ] ; then
+  echo "Try deleting system user and group [$USER:$GROUP]"
+  if getent passwd | grep -q "^$USER:";
+    then
+    echo "Deleting system user: $USER"
+    userdel $USER
+   fi
+   if getent group | grep -q "^$GROUP:" ;
+     then
+     echo "Deleting system group: $GROUP"
+     groupdel $GROUP
+   fi
+  echo "Removing Apps directory"
+  rm -rf $DIR
+  rm -rf $CONF_DIR
+fi
+
+if [ $1 -eq 1 ] ; then
+  #After update, starting the service
+  service $APP start
+fi

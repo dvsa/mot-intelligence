@@ -1,0 +1,9 @@
+set -o nounset
+APP_NAME=moti-webapp
+
+if [ $1 -eq 0 ] ; then
+  echo "Shutdown $APP_NAME"
+  service $APP_NAME stop > /dev/null
+  echo "Unregistering service"
+  chkconfig --del $APP_NAME > /dev/null
+fi

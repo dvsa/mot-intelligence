@@ -24,7 +24,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     @Override
     public void initialize(Bootstrap<MotIntelligenceConfiguration> bootstrap) {
         bootstrap.addBundle(new ViewBundle<>());
-        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets", "404"));
+        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
     }
 
     @Override

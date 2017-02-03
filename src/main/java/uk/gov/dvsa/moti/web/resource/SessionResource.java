@@ -1,28 +1,24 @@
 package uk.gov.dvsa.moti.web.resource;
 
-import uk.gov.dvsa.moti.web.model.FraudInterface;
+import uk.gov.dvsa.moti.web.model.ModelInterface;
 
-import io.dropwizard.jersey.sessions.Session;
-
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpSession;
 
 @Singleton
 public class SessionResource implements SessionResourceInterface {
 
-    private final HttpSession session;
+    @Inject
+    HttpSession session;
 
-    public SessionResource(@Session HttpSession session) {
-        this.session = session;
+    @Override
+    public ModelInterface get(String formUuid) {
+        return (ModelInterface) session.getAttribute(formUuid);
     }
 
     @Override
-    public FraudInterface get(String formUuid) {
-        return (FraudInterface) session.getAttribute(formUuid);
-    }
-
-    @Override
-    public void save(String formUuid, FraudInterface object) {
+    public void save(String formUuid, ModelInterface object) {
         if(session.getAttribute(formUuid) != null) {
             remove(formUuid);
         }

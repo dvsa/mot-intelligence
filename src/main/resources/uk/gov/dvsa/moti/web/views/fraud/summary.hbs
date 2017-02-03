@@ -1,4 +1,4 @@
-{{#partial "lede" }}
+{{#partial "title" }}
     Review and send your report
 {{/partial}}
 
@@ -8,98 +8,20 @@
 
 {{#partial "content" }}
 
-    <h2 class="heading-medium">About the vehicle</h2>
-    <table class="key-value-list">
-        <tbody>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Registration number
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Make
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Model
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <h2 class="heading-medium">About the location</h2>
-    <table class="key-value-list">
-        <tbody>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Name of the garage
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Address
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <h2 class="heading-medium">About the person commiting the fraud</h2>
-    <table class="key-value-list">
-        <tbody>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Name
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Address
-            </th>
-            <td scope="col" class="key-value-list__value">
-                <span class="text-secondary font-small">Not provided</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=vehicleTable}}
 
-    <h2 class="heading-medium">About the incident</h2>
-    <table class="key-value-list">
-        <tbody>
-        <tr>
-            <th scope="col" class="key-value-list__key">
-                Incident description
-            </th>
-            <td scope="col" class="key-value-list__value">
-                incident
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=locationTable}}
 
-    <form action="#" method="POST">
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=personTable}}
+
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=descriptionTable}}
+
+    <form action="" method="POST">
         <nav class="content-navigation">
             <input type="submit" value="Send report" id="continue" class="button">
             <ul class="content-navigation__secondary">
                 <li>
-                    <a href="/intelligence-reporting/form" id="back">Back</a>
+                    <a href="{{backLink}}" id="back">Back</a>
                 </li>
             </ul>
         </nav>

@@ -1,9 +1,9 @@
 package uk.gov.dvsa.moti.web.resource;
 
-import uk.gov.dvsa.moti.web.model.FraudInterface;
+import uk.gov.dvsa.moti.web.model.ModelInterface;
 
 public interface SessionResourceInterface {
-    public FraudInterface get(String formuuid);
-    public void save(String formuuid, FraudInterface object);
+    public ModelInterface get(String formuuid);
+    public void save(String formuuid, ModelInterface object);
     public void remove(String formUuid);
 }

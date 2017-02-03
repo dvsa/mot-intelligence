@@ -7,7 +7,15 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import org.eclipse.jetty.server.session.SessionHandler;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.process.internal.RequestScoped;
+import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
+import uk.gov.dvsa.moti.web.resource.SessionResource;
+import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
+import uk.gov.dvsa.moti.web.service.FraudService;
+
+import javax.servlet.http.HttpSession;
 
 public class MotIntelligenceApplication extends Application<MotIntelligenceConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -23,6 +31,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     public void initialize(Bootstrap<MotIntelligenceConfiguration> bootstrap) {
         bootstrap.addBundle(new ViewBundle<>());
         bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
+        bootstrap.addBundle(new DisplayFormElementHelperBundle());
     }
 
     @Override
@@ -31,5 +40,18 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         environment.jersey().register(fraudResource);
         environment.jersey().register(SessionFactoryProvider.class);
         environment.servlets().setSessionHandler(new SessionHandler());
+
+        environment.jersey().register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bindFactory(uk.gov.dvsa.moti.web.factory.HttpSessionFactory.class).to(HttpSession.class)
+                        .proxy(true).proxyForSameScope(false).in(RequestScoped.class);
+
+                bind(SessionResource.class).to(SessionResourceInterface.class)
+                        .proxy(true).proxyForSameScope(false).in(RequestScoped.class);
+
+                bind(FraudService.class).to(FraudService.class);
+            }
+        });
     }
 }

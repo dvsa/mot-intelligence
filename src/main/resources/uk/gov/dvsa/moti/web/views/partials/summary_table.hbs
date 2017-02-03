@@ -1,0 +1,19 @@
+<h2 class="heading-medium">{{table.heading}}</h2>
+<table class="key-value-list">
+    <tbody>
+    {{#each table.rows}}
+        <tr>
+            <th scope="col" class="key-value-list__key">
+                {{key}}
+            </th>
+            <td scope="col" class="key-value-list__value">
+                {{#if valueProvided}}
+                    {{value}}
+                {{else}}
+                    <span class="text-secondary font-small">Not provided</span>
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

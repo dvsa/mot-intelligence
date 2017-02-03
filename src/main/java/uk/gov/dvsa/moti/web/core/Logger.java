@@ -11,14 +11,6 @@ public class Logger {
 
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(Logger.class);
 
-    public void info(Exception e, String errorId) {
-        logger.info(LogFormatter.format(LogFormatter.Type.ERROR, errorId, e.toString() + getStackTrace(e)));
-    }
-
-    public void info(String message, String errorId) {
-        logger.info(LogFormatter.format(LogFormatter.Type.ERROR, errorId + " " + message));
-    }
-
     public void error(Exception e, String errorId) {
         logger.error(LogFormatter.format(LogFormatter.Type.ERROR, errorId, e.toString() + getStackTrace(e)));
     }

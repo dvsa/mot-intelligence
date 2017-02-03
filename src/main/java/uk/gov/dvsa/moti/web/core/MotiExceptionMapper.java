@@ -20,7 +20,6 @@ public class MotiExceptionMapper implements ExceptionMapper<Exception> {
 
         if(e instanceof NotFoundException) {
             responseStatus = Response.Status.NOT_FOUND;
-            logger.info(e, errorId);
         } else {
             logger.error(e, errorId);
         }

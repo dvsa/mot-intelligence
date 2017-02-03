@@ -36,7 +36,6 @@ public class MotiErrorHandler extends ErrorHandler {
 
             Map<String,String> context = new HashMap<>();
             context.put("errorId", errorId);
-            logger.info(code + " resource not found" , errorId);
 
             return template.apply(context);
         } catch (IOException e) {

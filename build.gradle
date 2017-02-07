@@ -9,12 +9,15 @@ task wrapper(type: Wrapper) {
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-jar {
-    archiveName "${baseName}.${extension}"
-}
 
 mainClassName = 'uk.gov.dvsa.moti.web.MotIntelligenceApplication'
 
+jar {
+    archiveName "${baseName}.${extension}"
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
 sourceCompatibility = 1.8
 
 project.ext {
@@ -41,6 +44,12 @@ sourceSets {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://nexus-prd.motdev.org.uk:8080/nexus/content/repositories/mot/"
+    }
+    maven {
+        url "http://nexus-prd.motdev.org.uk:8080/nexus/content/repositories/mot-snapshots/"
+    }
 }
 
 dependencies {
@@ -51,15 +60,18 @@ dependencies {
     compile (
         'io.dropwizard:dropwizard-core:' + dropwizardVersion,
         'io.dropwizard:dropwizard-assets:' + dropwizardVersion,
-        'io.codemonastery:dropwizard-views-handlebars:1.0.0.0'
+        'io.codemonastery:dropwizard-views-handlebars:1.0.0.0',
+        'uk.gov.dvsa.mot:common-libraries:1.0.0',
+        group: 'log4j', name: 'log4j', version: '1.2.17',
     )
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
 }
 
 shadowJar {
     baseName = 'moti-webapp'
     archiveName = "${baseName}-all.${extension}"
     mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
 }
 
 run {

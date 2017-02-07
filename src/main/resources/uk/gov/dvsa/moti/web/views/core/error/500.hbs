@@ -1,0 +1,12 @@
+{{#partial "title"}}
+    <h1>Something went wrong!</h1>
+{{/partial}}
+
+{{#partial "lede"}}
+    <div class="info-notice">
+        <p>A log of this error has been sent to <a href="/">DVSA MOT</a></p>
+        <p>Error ID &nbsp;<b>{{errorId}}</b></p>
+    </div>
+{{/partial}}
+
+{{> uk/gov/dvsa/moti/web/views/master }}

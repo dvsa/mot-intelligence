@@ -10,11 +10,16 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
+import uk.gov.dvsa.moti.web.filter.RequestFilter;
+import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 import uk.gov.dvsa.moti.web.resource.SessionResource;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
 import uk.gov.dvsa.moti.web.service.FraudService;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpSession;
 
 public class MotIntelligenceApplication extends Application<MotIntelligenceConfiguration> {
@@ -38,8 +43,11 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     public void run(MotIntelligenceConfiguration configuration, Environment environment) {
         final MotFraudResource fraudResource = new MotFraudResource();
         environment.jersey().register(fraudResource);
+        environment.jersey().register(RequestFilter.class);
         environment.jersey().register(SessionFactoryProvider.class);
         environment.servlets().setSessionHandler(new SessionHandler());
+        environment.servlets().addFilter("SessionFilter", new SessionFilter())
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
         environment.jersey().register(new AbstractBinder() {
             @Override

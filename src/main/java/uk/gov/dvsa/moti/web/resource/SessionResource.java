@@ -1,6 +1,6 @@
 package uk.gov.dvsa.moti.web.resource;
 
-import uk.gov.dvsa.moti.web.model.ModelInterface;
+import uk.gov.dvsa.moti.web.model.FraudModel;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,12 +13,14 @@ public class SessionResource implements SessionResourceInterface {
     HttpSession session;
 
     @Override
-    public ModelInterface get(String formUuid) {
-        return (ModelInterface) session.getAttribute(formUuid);
+    public FraudModel get(String formUuid) {
+
+        return (FraudModel) session.getAttribute(formUuid);
     }
 
     @Override
-    public void save(String formUuid, ModelInterface object) {
+    public void save(String formUuid, FraudModel object) {
+
         if(session.getAttribute(formUuid) != null) {
             remove(formUuid);
         }

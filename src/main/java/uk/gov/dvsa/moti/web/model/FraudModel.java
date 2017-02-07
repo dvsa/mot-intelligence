@@ -4,9 +4,11 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.io.Serializable;
+
 import javax.ws.rs.FormParam;
 
-public class FraudModel implements ModelInterface {
+public class FraudModel implements Serializable {
     public static final String PARAM_VEHICLE_REG = "vehicleReg";
     public static final String PARAM_LOCATION_NAME = "locationName";
     public static final String PARAM_LOCATION_ADDRESS = "locationAddress";

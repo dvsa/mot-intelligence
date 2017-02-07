@@ -9,6 +9,7 @@ import uk.gov.dvsa.moti.web.views.FraudSummaryView;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.UriBuilder;
+
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
@@ -76,7 +77,7 @@ public class FraudService {
     }
 
     private FraudModel getModel(String formUuid) {
-        FraudModel model = (FraudModel) sessionResource.get((formUuid));
+        FraudModel model = sessionResource.get(formUuid);
         if (model == null) {
             model = new FraudModel();
         }

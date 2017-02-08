@@ -38,7 +38,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
     public void initialize(Bootstrap<MotIntelligenceConfiguration> bootstrap) {
         bootstrap.addBundle(new ViewBundle<>());
         bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
-        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web", "/robots.txt", "/robots.txt"));
+        bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web", "/robots.txt", "/robots.txt", "robots"));
         bootstrap.addBundle(new DisplayFormElementHelperBundle());
     }
 

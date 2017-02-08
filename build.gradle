@@ -1,5 +1,5 @@
 group 'uk.gov.dvsa.mot'
-version '0.1-SNAPSHOT'
+version '0.1'
 
 task wrapper(type: Wrapper) {
   gradleVersion = '2.13'
@@ -7,11 +7,17 @@ task wrapper(type: Wrapper) {
 }
 
 apply plugin: 'java'
-apply plugin: 'gradle-one-jar'
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = 'uk.gov.dvsa.moti.web.MotIntelligenceApplication'
 
+jar {
+    archiveName "${baseName}.${extension}"
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
 sourceCompatibility = 1.8
 
 project.ext {
@@ -21,10 +27,11 @@ project.ext {
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
@@ -37,6 +44,12 @@ sourceSets {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://nexus-prd.motdev.org.uk:8080/nexus/content/repositories/mot/"
+    }
+    maven {
+        url "http://nexus-prd.motdev.org.uk:8080/nexus/content/repositories/mot-snapshots/"
+    }
 }
 
 dependencies {
@@ -47,20 +60,81 @@ dependencies {
     compile (
         'io.dropwizard:dropwizard-core:' + dropwizardVersion,
         'io.dropwizard:dropwizard-assets:' + dropwizardVersion,
-
-        'io.codemonastery:dropwizard-views-handlebars:1.0.0.0'
+        'io.codemonastery:dropwizard-views-handlebars:1.0.0.0',
+        'uk.gov.dvsa.mot:common-libraries:1.0.0',
+        group: 'log4j', name: 'log4j', version: '1.2.17',
     )
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
 }
 
-task oneJar(type: OneJar) {
-    mainClass = mainClassName
+shadowJar {
+    baseName = 'moti-webapp'
+    archiveName = "${baseName}-all.${extension}"
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
 }
 
 run {
     args 'server', './src/dist/config/mot-intelligence.yml'
 }
 
-artifacts {
-    oneJar
+apply plugin: 'nebula.rpm'
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.0'
+    }
+}
+
+// BuildNumber has to be set by -PBuildNumber or ORG_GRADLE_PROJECT_BuildNumber env var
+task BuildRpm(type: Rpm) {
+    packageName 'moti-webapp'
+    version = project.version
+    release = project.hasProperty('BuildNumber') ? BuildNumber : 'dev'
+    packageDescription = project.hasProperty('Description') ? Description: 'none'
+    user 'moti-webapp'
+    permissionGroup 'moti-webapp'
+    license 'Proprietary'
+    url 'https://gitlab.motdev.org.uk/moti/mot-intelligence'
+    arch X86_64
+    os LINUX
+    type BINARY
+
+    preInstall file('scripts/rpm/preInstall')
+    postInstall file('scripts/rpm/postInstall')
+    preUninstall file('scripts/rpm/preUninstall')
+    postUninstall file('scripts/rpm/postUninstall')
+
+    from('src/dist/config/mot-intelligence.yml') {
+      into '/etc/dvsa/moti-webapp/'
+      fileMode 0750
+      user 'root'
+      permissionGroup 'moti-webapp'
+      fileType CONFIG | NOREPLACE
+    }
+
+    from ('scripts/init') {
+       into 'bin'
+       user 'root'
+       permissionGroup 'root'
+       fileMode 0755
+    }
+
+    into '/opt/dvsa/moti-webapp'
+    from ('build/libs/moti-webapp-all.jar') {
+      fileMode 0750
+      user 'root'
+      permissionGroup 'moti-webapp'
+      into 'lib'
+    }
+
+    requires ('java-1.8.0-openjdk', '1.8.0.65', GREATER | EQUAL)
+    link ('/etc/init.d/moti-webapp', '/opt/dvsa/moti-webapp/bin/init')
+    link ('/opt/dvsa/moti-webapp/log', '/var/log/dvsa/moti-webapp')
+    link ('/opt/dvsa/moti-webapp/conf', '/etc/dvsa/moti-webapp')
 }

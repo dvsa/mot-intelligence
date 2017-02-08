@@ -6,8 +6,6 @@ import java.io.IOException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 
-import org.apache.log4j.Logger;
-
 public class WrappedServletOutputStream extends ServletOutputStream {
     private final FilterOutputStream output;
 

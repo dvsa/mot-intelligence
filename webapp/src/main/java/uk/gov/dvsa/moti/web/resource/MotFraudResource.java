@@ -2,8 +2,9 @@ package uk.gov.dvsa.moti.web.resource;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import uk.gov.dvsa.moti.web.model.FraudModel;
 import javax.ws.rs.core.Response;
+
+import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.service.FraudService;
 import uk.gov.dvsa.moti.web.views.FraudFormView;
 import uk.gov.dvsa.moti.web.views.FraudSuccessView;

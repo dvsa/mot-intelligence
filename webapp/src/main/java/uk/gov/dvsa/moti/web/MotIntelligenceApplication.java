@@ -19,6 +19,7 @@ import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 import uk.gov.dvsa.moti.web.resource.SessionResource;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
 import uk.gov.dvsa.moti.web.service.FraudService;
+import uk.gov.dvsa.moti.web.factory.HttpSessionFactory;
 
 import java.util.EnumSet;
 
@@ -57,7 +58,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         environment.jersey().register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bindFactory(uk.gov.dvsa.moti.web.factory.HttpSessionFactory.class).to(HttpSession.class)
+                bindFactory(HttpSessionFactory.class).to(HttpSession.class)
                         .proxy(true).proxyForSameScope(false).in(RequestScoped.class);
 
                 bind(SessionResource.class).to(SessionResourceInterface.class)

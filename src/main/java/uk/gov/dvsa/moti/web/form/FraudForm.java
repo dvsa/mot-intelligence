@@ -1,5 +1,7 @@
 package uk.gov.dvsa.moti.web.form;
 
+import uk.gov.dvsa.moti.web.form.element.TextAreaElement;
+import uk.gov.dvsa.moti.web.form.element.TextElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 
 import javax.validation.ConstraintViolation;
@@ -15,20 +17,18 @@ public class FraudForm extends AbstractForm {
 
         this.model = model;
 
-        addElement(FraudModel.PARAM_VEHICLE_REG, model.getVehicleReg());
-        addElement(FraudModel.PARAM_VEHICLE_MAKE, model.getVehicleMake());
-        addElement(FraudModel.PARAM_VEHICLE_MODEL, model.getVehicleModel());
-        addElement(FraudModel.PARAM_LOCATION_NAME, model.getLocationName());
-        addElement(FraudModel.PARAM_LOCATION_ADDRESS, model.getLocationAddress());
-        addElement(FraudModel.PARAM_PERSON_NAME, model.getPersonName());
-        addElement(FraudModel.PARAM_PERSON_ADDRESS, model.getPersonAddress());
-        addElement(FraudModel.PARAM_COMMENTS, model.getComments());
+        addElement(new TextElement(FraudModel.PARAM_VEHICLE_REG, model.getVehicleReg()));
+        addElement(new TextElement(FraudModel.PARAM_LOCATION_NAME, model.getLocationName()));
+        addElement(new TextElement(FraudModel.PARAM_LOCATION_ADDRESS, model.getLocationAddress()));
+        addElement(new TextElement(FraudModel.PARAM_PERSON_NAME, model.getPersonName()));
+        addElement(new TextElement(FraudModel.PARAM_PERSON_ADDRESS, model.getPersonAddress()));
+        addElement(new TextAreaElement(FraudModel.PARAM_COMMENTS, model.getComments()));
     }
 
     public boolean isValid() {
 
-        formElements.forEach((name, element)->{
-            Set<ConstraintViolation<FraudModel>> constraintViolations = validator.validateProperty(model, name);
+        formElements.forEach((element)->{
+            Set<ConstraintViolation<FraudModel>> constraintViolations = validator.validateProperty(model, element.getName());
             if (constraintViolations.size() > 0) {
                 element.setErrorMessage(constraintViolations.iterator().next().getMessage());
                 isValid = false;

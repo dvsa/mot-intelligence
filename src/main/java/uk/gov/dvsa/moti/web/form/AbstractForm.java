@@ -1,30 +1,39 @@
 package uk.gov.dvsa.moti.web.form;
 
-import uk.gov.dvsa.moti.web.form.element.FormElement;
+import uk.gov.dvsa.moti.web.exception.FormElementNotFoundException;
+import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractForm {
 
-    protected HashMap<String, FormElement> formElements = new HashMap<>();
+    protected List<AbstractFormElement> formElements = new ArrayList<>();
 
     protected static Validator validator;
 
     public AbstractForm() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
     public abstract boolean isValid();
 
-    protected void addElement(String name, String value) {
-        formElements.put(name, new FormElement(name, value));
+    protected void addElement(AbstractFormElement element) {
+        formElements.add(element);
     }
 
-    public FormElement getElement(String name) {
-        return formElements.get(name);
+    public AbstractFormElement getElement(String name) {
+
+        return formElements
+                .stream()
+                .filter(element -> name.equals(element.getName()))
+                .findAny()
+                .orElseThrow(() -> new FormElementNotFoundException("Form element with name '" + name + "' not found"));
+    }
+
+    public List<AbstractFormElement> getElements() {
+        return formElements;
     }
 }

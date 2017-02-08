@@ -1,0 +1,8 @@
+<div class="form-group {{#if errorMessage }} has-error {{/if}}">
+    <label for="{{name}}" class="form-label">
+        {{options.label}} {{#if options.required}} (required) {{else}} (optional) {{/if}}
+        {{#if options.hint}}<span class="form-hint"> {{options.hint}}</span> {{/if}}
+        {{#if errorMessage}} <span class="validation-message">{{errorMessage}}</span> {{/if}}
+    </label>
+    <input type="text" name="{{name}}" {{#if options.id}} id="{{options.id}}" {{/if}} class="form-control {{#if options.cssClass}} {{options.cssClass}} {{/if}}" value="{{value}}">
+</div>

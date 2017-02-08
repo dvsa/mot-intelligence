@@ -1,3 +1,5 @@
 .gradle
 /.idea/
 /build/
+/moti-selenium/target/
+/moti-selenium/.idea/

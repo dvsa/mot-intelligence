@@ -63,8 +63,8 @@ dependencies {
         'io.codemonastery:dropwizard-views-handlebars:1.0.0.0',
         'uk.gov.dvsa.mot:common-libraries:1.0.0',
         group: 'log4j', name: 'log4j', version: '1.2.17',
+        project(':core')
     )
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
 }
 
 shadowJar {

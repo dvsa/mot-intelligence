@@ -3,5 +3,6 @@
 /build/
 /moti-selenium/target/
 /moti-selenium/.idea/
+core/build/*
 processor/build/*
 webapp/build/*

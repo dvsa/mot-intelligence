@@ -1,0 +1,75 @@
+group 'uk.gov.dvsa.mot'
+version '0.1'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+mainClassName = 'uk.gov.dvsa.moti.processor.ProcessorApplication'
+
+jar {
+    archiveName "${baseName}.${extension}"
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+sourceCompatibility = 1.8
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+sourceSets {
+    test {
+        java.srcDir 'src/test/unit/java'
+        resources.srcDir 'src/test/unit/resources'
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://nexus-prd.motdev.org.uk:8080/nexus/content/repositories/mot/"
+    }
+    maven {
+        url "http://nexus-prd.motdev.org.uk:8080/nexus/content/repositories/mot-snapshots/"
+    }
+}
+
+dependencies {
+    testCompile (
+            'org.mockito:mockito-core:1.10.19',
+    )
+    compile (
+            'org.apache.commons:commons-collections4:4.1',
+            'uk.gov.dvsa.mot:common-libraries:1.0.0',
+            group: 'log4j', name: 'log4j', version: '1.2.17',
+            project(':core')
+    )
+}
+
+shadowJar {
+    baseName = 'moti-processor'
+    archiveName = "${baseName}-all.${extension}"
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
+
+run {
+    args 'server', './src/dist/config/mot-intelligence.yml'
+}

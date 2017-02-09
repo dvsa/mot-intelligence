@@ -1,0 +1,28 @@
+<configuration debug="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <context/>
+                <pattern>
+                    <pattern>
+                        {
+                        "logger": "%logger",
+                        "level": "%level",
+                        "thread": "%thread",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+                <logstashMarkers/>
+                <arguments>
+                    <includeNonStructuredArguments>false</includeNonStructuredArguments>
+                    <nonStructuredArgumentsFieldPrefix>arg</nonStructuredArgumentsFieldPrefix>
+                </arguments>
+            </providers>
+        </encoder>
+    </appender>
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

@@ -73,3 +73,56 @@ shadowJar {
 run {
     args 'server', './src/dist/config/mot-intelligence.yml'
 }
+
+apply plugin: 'nebula.rpm'
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.0'
+    }
+}
+
+
+// BuildNumber has to be set by -PBuildNumber or ORG_GRADLE_PROJECT_BuildNumber env var
+task BuildRpm(type: Rpm) {
+    packageName 'moti-webapp-processor'
+    version = project.version
+    release = project.hasProperty('BuildNumber') ? BuildNumber : 'dev'
+    packageDescription = project.hasProperty('Description') ? Description: 'none'
+    user 'moti-webapp'
+    permissionGroup 'moti-webapp'
+    license 'Proprietary'
+    url 'https://gitlab.motdev.org.uk/moti/mot-intelligence'
+    arch X86_64
+    os LINUX
+    type BINARY
+
+    preInstall file('../scripts/rpm/preInstall')
+    postInstall file('../scripts/rpm/postInstallProcessor')
+    postUninstall file('../scripts/rpm/postUninstall')
+
+    from('src/dist/config/mot-intelligence.yml') {
+      into '/etc/dvsa/moti-webapp/'
+      fileMode 0750
+      user 'root'
+      permissionGroup 'moti-webapp'
+      fileType CONFIG | NOREPLACE
+    }
+
+    into '/opt/dvsa/moti-webapp'
+    from ('build/libs/moti-processor-all.jar') {
+      fileMode 0750
+      user 'root'
+      permissionGroup 'moti-webapp'
+      into 'lib'
+    }
+
+    requires ('java-1.8.0-openjdk', '1.8.0.65', GREATER | EQUAL)
+    link ('/opt/dvsa/moti-webapp/log', '/var/log/dvsa/moti-webapp')
+    link ('/opt/dvsa/moti-webapp/conf', '/etc/dvsa/moti-webapp')
+}
+

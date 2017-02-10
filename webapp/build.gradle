@@ -105,10 +105,10 @@ task BuildRpm(type: Rpm) {
     os LINUX
     type BINARY
 
-    preInstall file('scripts/rpm/preInstall')
-    postInstall file('scripts/rpm/postInstall')
-    preUninstall file('scripts/rpm/preUninstall')
-    postUninstall file('scripts/rpm/postUninstall')
+    preInstall file('../scripts/rpm/preInstall')
+    postInstall file('../scripts/rpm/postInstall')
+    preUninstall file('../scripts/rpm/preUninstall')
+    postUninstall file('../scripts/rpm/postUninstall')
 
     from('src/dist/config/mot-intelligence.yml') {
       into '/etc/dvsa/moti-webapp/'

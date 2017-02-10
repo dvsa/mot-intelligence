@@ -25,19 +25,27 @@ public final class S3Storage implements FileStorage {
     private String storePrefix;
     private String bucket;
 
-    public S3Storage(String bucket, String prefix, S3StorageCredentials credentials) {
+    public S3Storage(String bucket, String prefix) {
+        this(bucket, prefix, null, null);
+    }
+
+    public S3Storage(String bucket, String prefix, String accessKey, String secretKey) {
         this.bucket = bucket;
         this.storePrefix = prefix;
 
-        AWSCredentials clientCredentials = credentials != null
-                ? new BasicAWSCredentials(credentials.getAccessKey(), credentials.getSecretKey())
+        AWSCredentials clientCredentials = accessKey != null && !accessKey.equals("")
+                ? new BasicAWSCredentials(accessKey, secretKey)
                 : new AnonymousAWSCredentials();
 
         client = new AmazonS3Client(clientCredentials);
     }
 
     public void store(String key, String fileContents) {
-        InputStream stream = new ByteArrayInputStream(fileContents.getBytes(StandardCharsets.UTF_8));
+        store(key, fileContents.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void store(String key, byte[] fileContents) {
+        InputStream stream = new ByteArrayInputStream(fileContents);
 
         key = withPrefix(key);
 

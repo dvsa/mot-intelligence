@@ -1,10 +1,30 @@
 group 'uk.gov.dvsa.mot'
 version '0.1'
 
+apply plugin: "io.spring.dependency-management"
+
 repositories {
     mavenCentral()
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.0.RC2"
+    }
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile (
+        'com.amazonaws:aws-java-sdk-s3',
+    )
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.10.77'
+    }
 }

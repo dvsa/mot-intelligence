@@ -21,3 +21,21 @@ server:
         threshold: ALL
         timeZone: UTC
         type: file
+  applicationConnectors:
+      - type: http
+        port: 8080
+  adminConnectors:
+      - type: http
+        port: 8081
+s3:
+  privateBucket:
+    accessKey:
+    secretKey:
+    bucket: mot-intelligence-fb
+    rootFolder: root/
+  publicBucket:
+    accessKey:
+    secretKey:
+    bucket: mot-intelligence-fb
+    filePath: ExampleFilePath.xml
+

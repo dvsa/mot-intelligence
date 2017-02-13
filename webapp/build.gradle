@@ -52,7 +52,7 @@ task integrationTest(type: Test) {
     classpath = sourceSets.integrationTest.runtimeClasspath
     group = 'verification'
     description = 'Runs the integration tests.'
-    systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "../config.yml"
+    systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "config.yml"
 }
 
 repositories {
@@ -101,7 +101,7 @@ shadowJar {
 }
 
 run {
-    args 'server', '../config.yml'
+    args 'server', 'config.yml'
 }
 
 apply plugin: 'nebula.rpm'

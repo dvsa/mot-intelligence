@@ -1,8 +1,6 @@
-package uk.gov.dvsa.moti.web.config;
+package uk.gov.dvsa.moti.common.configuration.model;
 
-import io.dropwizard.Configuration;
-
-public class PublicS3BucketConfiguration extends Configuration {
+public class S3BucketConfiguration {
     private String accessKey;
 
     public String getAccessKey() {
@@ -15,10 +13,10 @@ public class PublicS3BucketConfiguration extends Configuration {
         return secretKey;
     }
 
-    private String filePath;
+    private String rootFolder;
 
-    public String getFilePath() {
-        return filePath;
+    public String getRootFolder() {
+        return rootFolder;
     }
 
     private String bucket;

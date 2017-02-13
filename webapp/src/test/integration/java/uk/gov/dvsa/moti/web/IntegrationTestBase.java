@@ -1,7 +1,7 @@
 package uk.gov.dvsa.moti.web;
 
 import uk.gov.dvsa.moti.configuration.ConfigFileReader;
-import uk.gov.dvsa.moti.web.config.MotIntelligenceConfiguration;
+import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
 
 import java.io.IOException;
 

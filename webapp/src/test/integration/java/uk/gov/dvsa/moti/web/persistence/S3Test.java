@@ -20,10 +20,10 @@ public class S3Test extends IntegrationTestBase {
 
     @Test
     public void returnsValidationErrorWithValidData() throws IOException {
-        String bucket = configuration.getS3Configuration().getPrivateBucketConfiguration().getBucket();
-        String rootFolder = configuration.getS3Configuration().getPrivateBucketConfiguration().getRootFolder();
-        String accessKey = configuration.getS3Configuration().getPrivateBucketConfiguration().getAccessKey();
-        String secretKey = configuration.getS3Configuration().getPrivateBucketConfiguration().getSecretKey();
+        String bucket = configuration.getS3Configuration().getBucket();
+        String rootFolder = configuration.getS3Configuration().getRootFolder();
+        String accessKey = configuration.getS3Configuration().getAccessKey();
+        String secretKey = configuration.getS3Configuration().getSecretKey();
 
         FileStorage storage = new S3Storage(bucket, rootFolder, accessKey, secretKey);
 

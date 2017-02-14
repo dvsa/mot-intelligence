@@ -6,3 +6,6 @@
 core/build/*
 processor/build/*
 webapp/build/*
+/core/core.iml
+/processor/processor.iml
+/webapp/webapp.iml

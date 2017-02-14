@@ -10,7 +10,7 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
-import uk.gov.dvsa.moti.web.config.MotIntelligenceConfiguration;
+import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
 import uk.gov.dvsa.moti.web.filter.RequestFilter;
 import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.core.MotiErrorHandler;

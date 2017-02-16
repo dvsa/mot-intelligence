@@ -7,23 +7,8 @@ project.ext {
     dropwizardVersion = '1.0.5'
 }
 
-apply plugin: "io.spring.dependency-management"
-
-project.ext {
-    dropwizardVersion = '1.0.5'
-}
-
 repositories {
     mavenCentral()
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.0.RC2"
-    }
 }
 
 sourceSets {
@@ -34,19 +19,13 @@ sourceSets {
 }
 
 dependencies {
-    testCompile (
-        'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
+    testCompile(
+            'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
     )
-    compile (
-        'io.dropwizard:dropwizard-core:' + dropwizardVersion,
-        'com.amazonaws:aws-java-sdk-s3',
-        group: 'log4j', name: 'log4j', version: '1.2.17',
-        'org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0',
+    compile(
+            'io.dropwizard:dropwizard-core:' + dropwizardVersion,
+            'com.amazonaws:aws-java-sdk-s3:1.11.90',
+            group: 'log4j', name: 'log4j', version: '1.2.17',
+            'org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0',
     )
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.10.77'
-    }
 }

@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 public class ConfigFileReader {
 
     public <T> T read(String filePath, Class<T> valueType) {
+        validateIfNotDistFile(filePath);
+
         ObjectMapper mapper = Jackson.newObjectMapper(new YAMLFactory());
 
         try {
@@ -24,6 +26,12 @@ public class ConfigFileReader {
             );
         } catch (IOException ex) {
             throw new ConfigurationException("Could not read configuration file", ex);
+        }
+    }
+
+    private void validateIfNotDistFile(String filePath) {
+        if (filePath.endsWith(".dist")) {
+            throw new ConfigurationException("Cannot load configuration from .dist file.");
         }
     }
 

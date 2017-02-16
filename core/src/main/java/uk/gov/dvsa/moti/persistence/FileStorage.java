@@ -1,13 +1,13 @@
 package uk.gov.dvsa.moti.persistence;
 
-import java.io.File;
 import java.util.List;
 
 public interface FileStorage {
-    List<String> getMultiple(String keyPrefix, int limit);
-    String get(String keyPrefix);
-    void store(String key, String fileContents);
-    void store(String key, byte[] fileContents);
+    List<File> getMultiple(String keyPrefix, int limit);
+    File get(String keyPrefix);
+    void store(File file);
+    void store(String key, String fileContent);
+    void store(String key, byte[] fileContent);
     void delete(String key);
     void delete(List<String> keys);
 }

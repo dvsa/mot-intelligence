@@ -22,75 +22,81 @@ import java.util.stream.Collectors;
 
 public final class S3Storage implements FileStorage {
     private AmazonS3Client client;
-    private String storePrefix;
+    private String storeRoot;
     private String bucket;
 
     public S3Storage(String bucket, String prefix) {
         this(bucket, prefix, null, null);
     }
 
-    public S3Storage(String bucket, String prefix, String accessKey, String secretKey) {
+    public S3Storage(String bucket, String prefix, String accesspath, String secretpath) {
         this.bucket = bucket;
-        this.storePrefix = prefix;
+        this.storeRoot = prefix;
 
-        AWSCredentials clientCredentials = accessKey != null && !accessKey.equals("")
-                ? new BasicAWSCredentials(accessKey, secretKey)
+        AWSCredentials clientCredentials = accesspath != null && !accesspath.equals("")
+                ? new BasicAWSCredentials(accesspath, secretpath)
                 : new AnonymousAWSCredentials();
 
         client = new AmazonS3Client(clientCredentials);
     }
 
-    public void store(String key, String fileContents) {
-        store(key, fileContents.getBytes(StandardCharsets.UTF_8));
+    @Override
+    public void store(File file) {
+        store(file.getPath(), file.getContent());
     }
 
-    public void store(String key, byte[] fileContents) {
-        InputStream stream = new ByteArrayInputStream(fileContents);
+    public void store(String path, String fileContent) {
 
-        key = withPrefix(key);
+        store(path, fileContent.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void store(String path, byte[] fileContent) {
+        InputStream stream = new ByteArrayInputStream(fileContent);
+
+        path = withRootPrefix(path);
 
         // we actually do not require any metdata to be assigned to the file
         ObjectMetadata emptyMetadata = new ObjectMetadata();
 
-        client.putObject(bucket, key, stream, emptyMetadata);
+        client.putObject(bucket, path, stream, emptyMetadata);
     }
 
-    public void delete(String key) {
-        client.deleteObject(bucket, withPrefix(key));
+    public void delete(String path) {
+        client.deleteObject(bucket, withRootPrefix(path));
     }
 
-    public void delete(List<String> keys) {
-        List<DeleteObjectsRequest.KeyVersion> keysVersions = new ArrayList<>(keys.size());
+    public void delete(List<String> paths) {
+        List<DeleteObjectsRequest.KeyVersion> pathsVersions = new ArrayList<>(paths.size());
 
-        for (String key : keys) {
-            keysVersions.add(new DeleteObjectsRequest.KeyVersion(key));
+        for (String path : paths) {
+            pathsVersions.add(new DeleteObjectsRequest.KeyVersion(withRootPrefix(path)));
         }
 
         DeleteObjectsRequest request = new DeleteObjectsRequest(bucket);
 
-        request.setKeys(keysVersions);
+        request.setKeys(pathsVersions);
         client.deleteObjects(request);
     }
 
     @Override
-    public List<String> getMultiple(String keyPrefix, int limit) {
-        List<String> keys = list(withPrefix(keyPrefix));
-        limit = Math.min(limit, keys.size());
+    public List<File> getMultiple(String pathPrefix, int limit) {
+        List<String> paths = list(pathPrefix);
+        limit = Math.min(limit, paths.size());
 
-        keys = keys.subList(0, limit);
+        paths = paths.subList(0, limit);
 
-        List<String> files = new ArrayList<>(keys.size());
+        List<File> files = new ArrayList<>(paths.size());
 
-        for (String key : keys) {
-            String file = get(key);
+        for (String path : paths) {
+            File file = get(path);
             files.add(file);
         }
 
         return files;
     }
 
-    public String get(String key) {
-        S3Object object = client.getObject(bucket, withPrefix(key));
+    public File get(String path) {
+        S3Object object = client.getObject(bucket, withRootPrefix(path));
 
         InputStream stream = object.getObjectContent();
         ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -101,7 +107,7 @@ public final class S3Storage implements FileStorage {
                 result.write(buffer, 0, length);
             }
 
-            return result.toString("UTF-8");
+            return new File(path, result.toByteArray());
         } catch (UnsupportedEncodingException ex) {
             throw new FileStorageException("Not able to encode incoming document with UTF-8.", ex);
         } catch (IOException ex) {
@@ -109,22 +115,22 @@ public final class S3Storage implements FileStorage {
         }
     }
 
-    private List<String> list(String keyPrefix) {
-        ObjectListing listing = client.listObjects(bucket, keyPrefix);
+    private List<String> list(String pathPrefix) {
+        ObjectListing listing = client.listObjects(bucket, withRootPrefix(pathPrefix));
         List<S3ObjectSummary> summaries = listing.getObjectSummaries();
 
-        int prefixLength = keyPrefix.length();
+        int rootLength = this.storeRoot.length();
 
-        List<String> keys = summaries
+        List<String> paths = summaries
                 .stream()
                 .map(summary -> summary.getKey())
-                .map(fullKey -> fullKey.substring(prefixLength))
+                .map(fullpath -> fullpath.substring(rootLength))
                 .collect(Collectors.toList());
 
-        return keys;
+        return paths;
     }
 
-    private String withPrefix(String key) {
-        return storePrefix + key;
+    private String withRootPrefix(String path) {
+        return storeRoot + path;
     }
 }

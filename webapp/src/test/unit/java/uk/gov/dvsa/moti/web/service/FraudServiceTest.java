@@ -3,7 +3,14 @@ package uk.gov.dvsa.moti.web.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.jackson.Jackson;
 import org.junit.Test;
+
+import uk.gov.dvsa.moti.fraudserializer.xml.Fraud;
 import uk.gov.dvsa.moti.web.model.FraudModel;
+import uk.gov.dvsa.moti.fraudserializer.FraudSerializer;
+import uk.gov.dvsa.moti.persistence.FileStorage;
+import uk.gov.dvsa.moti.persistence.FileStorageException;
+import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
+import uk.gov.dvsa.moti.web.fraudSender.XmlFraudSender;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
 import uk.gov.dvsa.moti.web.views.FraudFormView;
 import uk.gov.dvsa.moti.web.views.FraudSuccessView;
@@ -24,7 +31,7 @@ public class FraudServiceTest {
 
     @Test
     public void displayForm_returnsView() throws IOException {
-        FraudService service = new FraudService(createSessionResource(getModel()));
+        FraudService service = new FraudService(createSessionResource(getModel()), getFraudSenderServiceCorrect());
 
         assertEquals(FraudFormView.class, service.displayForm(FORM_UUID).getClass());
     }
@@ -32,7 +39,7 @@ public class FraudServiceTest {
     @Test
     public void validateData_returnsEmptyView_whenModelDataIsValid() throws IOException {
         FraudModel model = getModel();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         Optional<FraudFormView> optional = service.validateData(model, FORM_UUID);
         assertFalse(optional.isPresent());
@@ -41,7 +48,7 @@ public class FraudServiceTest {
     @Test
     public void validateData_returnsView_whenModelDataIsInvalid() throws IOException {
         FraudModel model = getModelWithInvalidData();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         Optional<FraudFormView> optional = service.validateData(model, FORM_UUID);
         assertEquals(FraudFormView.class, optional.get().getClass());
@@ -50,7 +57,7 @@ public class FraudServiceTest {
     @Test
     public void displaySummary_returnsView_whenModelDataIsValid() throws IOException {
         FraudModel model = getModel();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         Optional<FraudSummaryView> optional = service.displaySummary(FORM_UUID);
         assertEquals(FraudSummaryView.class, optional.get().getClass());
@@ -59,7 +66,7 @@ public class FraudServiceTest {
     @Test
     public void displaySummary_returnsEmptyView_whenModelDataIsInvalid() throws IOException {
         FraudModel model = getModelWithInvalidData();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         Optional<FraudSummaryView> optional = service.displaySummary(FORM_UUID);
         assertFalse(optional.isPresent());
@@ -68,7 +75,7 @@ public class FraudServiceTest {
     @Test
     public void sendReport_returnsTrue_whenModelDataIsValid() throws IOException {
         FraudModel model = getModel();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         assertTrue(service.sendReport(FORM_UUID));
     }
@@ -76,7 +83,7 @@ public class FraudServiceTest {
     @Test
     public void sendReport_returnsFalse_whenModelDataIsInvalid() throws IOException {
         FraudModel model = getModelWithInvalidData();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         assertFalse(service.sendReport(FORM_UUID));
     }
@@ -84,7 +91,7 @@ public class FraudServiceTest {
     @Test
     public void displaySuccessPage_returnsView_whenModelDataIsValid() throws IOException {
         FraudModel model = getModel();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         Optional<FraudSuccessView> optional = service.displaySuccessPage(FORM_UUID);
         assertEquals(FraudSuccessView.class, optional.get().getClass());
@@ -93,10 +100,26 @@ public class FraudServiceTest {
     @Test
     public void displaySuccessPage_returnsEmptyView_whenModelDataIsInvalid() throws IOException {
         FraudModel model = getModelWithInvalidData();
-        FraudService service = new FraudService(createSessionResource(model));
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
         Optional<FraudSuccessView> optional = service.displaySuccessPage(FORM_UUID);
         assertFalse(optional.isPresent());
+    }
+
+    @Test
+    public void validateData_returnsUpdatedForm_whenModelDataIsSend() throws IOException {
+        FraudModel model = getModel();
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
+
+        assertTrue(service.sendReport(FORM_UUID));
+    }
+
+    @Test(expected=FileStorageException.class)
+    public void validateData_returnsError_whenModelDataIsNotSend() throws IOException {
+        FraudModel model = getModel();
+        FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceThrowS3Error());
+
+        service.sendReport(FORM_UUID);
     }
 
     private SessionResourceInterface createSessionResource(FraudModel model) {
@@ -108,6 +131,34 @@ public class FraudServiceTest {
 
     private FraudModel getModel() throws IOException {
         return MAPPER.readValue(fixture("fixtures/fraud-model.json"), FraudModel.class);
+    }
+
+    private FraudSender getFraudSenderServiceCorrect() throws IOException {
+        return new XmlFraudSender(getFileStoreCorrect(), getFraudSerializer());
+    }
+
+    private FraudSender getFraudSenderServiceThrowS3Error() throws IOException {
+        return new XmlFraudSender(getFileStoreThrowS3Error(), getFraudSerializer());
+    }
+
+    private FraudSerializer getFraudSerializer() {
+        FraudSerializer fraudSerializer = mock(FraudSerializer.class);
+        doReturn("serialized").when(fraudSerializer).serialize(any(Fraud.class));
+
+        return  fraudSerializer;
+    }
+
+    private FileStorage getFileStoreCorrect() {
+        FileStorage fileStorage = mock(FileStorage.class);
+        doNothing().when(fileStorage).store(anyString(), anyString());
+
+        return fileStorage;
+    }
+
+    private FileStorage getFileStoreThrowS3Error() throws IOException {
+        FileStorage fileStorage = mock(FileStorage.class);
+        doThrow(new FileStorageException()).when(fileStorage).store(anyString(), anyString());
+        return fileStorage;
     }
 
     private FraudModel getModelWithInvalidData() throws IOException {

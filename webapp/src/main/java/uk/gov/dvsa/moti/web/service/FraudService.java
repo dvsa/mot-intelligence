@@ -1,7 +1,13 @@
 package uk.gov.dvsa.moti.web.service;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+
+import uk.gov.dvsa.moti.fraudserializer.xml.Fraud;
 import uk.gov.dvsa.moti.web.form.FraudForm;
+import uk.gov.dvsa.moti.web.fraudSender.mapper.XmlFraudMapper;
 import uk.gov.dvsa.moti.web.model.FraudModel;
+import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
 import uk.gov.dvsa.moti.web.views.FraudFormView;
 import uk.gov.dvsa.moti.web.views.FraudSuccessView;
@@ -17,9 +23,15 @@ public class FraudService {
 
     private SessionResourceInterface sessionResource;
 
+    private FraudSender fraudSender;
+
     @Inject
-    public FraudService(SessionResourceInterface sessionResource) {
+    public FraudService(
+            SessionResourceInterface sessionResource,
+            FraudSender fraudSender
+    ) {
         this.sessionResource = sessionResource;
+        this.fraudSender = fraudSender;
     }
 
     public FraudFormView displayForm(String formUuid) {
@@ -50,7 +62,10 @@ public class FraudService {
 
     public boolean sendReport(String formUuid) {
         if (isDataValid(formUuid)) {
-            //generate and send xml
+            FraudModel model = getModel(formUuid);
+            Fraud xmlFraudModel = XmlFraudMapper.getXmlFraudModel(model, formUuid);
+            fraudSender.send(xmlFraudModel);
+
             return true;
         }
 

@@ -9,27 +9,31 @@
 {{#partial "content" }}
 
     <form action="" method="post" autocomplete="off" novalidate>
+        <h2 class="heading-large">About the vehicle</h2>
         <fieldset>
-            <legend class="heading-large">About the vehicle</legend>
+            <legend class="visuallyhidden">About the vehicle</legend>
             {{{display_form_element vehicleReg}}}
         </fieldset>
 
+        <h2 class="heading-large" id="">About the location</h2>
         <fieldset>
-            <legend class="heading-large" id="">About the location</legend>
+            <legend class="visuallyhidden" id="">About the location</legend>
             {{{display_form_element locationName}}}
 
             {{{display_form_element locationAddress}}}
         </fieldset>
 
+        <h2 class="heading-large" id="">About the person committing fraud</h2>
         <fieldset>
-            <legend class="heading-large" id="">About the person commiting fraud</legend>
+            <legend class="visuallyhidden" id="">About the person committing fraud</legend>
             {{{display_form_element personName}}}
 
             {{{display_form_element personAddress}}}
         </fieldset>
 
+        <h2 class="heading-large" id="">About the incident</h2>
         <fieldset>
-            <legend class="heading-large" id="">About the incident</legend>
+            <legend class="visuallyhidden" id="">About the incident</legend>
             {{{display_form_element comments}}}
         </fieldset>
 

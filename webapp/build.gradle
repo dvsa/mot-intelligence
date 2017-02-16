@@ -9,7 +9,6 @@ task wrapper(type: Wrapper) {
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: "io.spring.dependency-management"
 
 mainClassName = 'uk.gov.dvsa.moti.web.MotIntelligenceApplication'
 
@@ -65,12 +64,6 @@ repositories {
     }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.10.77'
-    }
-}
-
 dependencies {
     testCompile (
             'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
@@ -87,8 +80,6 @@ dependencies {
     integrationTestCompile (
         sourceSets.main.output,
         configurations.testCompile,
-        'com.amazonaws:aws-java-sdk-s3',
-        project(':core'),
     )
 }
 
@@ -113,7 +104,6 @@ buildscript {
 
     dependencies {
         classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.0'
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.0.RC2"
     }
 }
 

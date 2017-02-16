@@ -22,7 +22,7 @@ public class FraudSummaryView extends View {
     }
 
     public SummaryTable getPersonTable() {
-        SummaryTable table = new SummaryTable("About the person commiting the fraud");
+        SummaryTable table = new SummaryTable("About the person committing the fraud");
         table.addRow("Name", model.getPersonName());
         table.addRow("Address", model.getPersonAddress());
 

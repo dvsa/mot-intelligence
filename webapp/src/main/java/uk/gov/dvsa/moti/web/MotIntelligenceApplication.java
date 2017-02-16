@@ -15,9 +15,11 @@ import uk.gov.dvsa.moti.web.filter.RequestFilter;
 import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.core.MotiErrorHandler;
 import uk.gov.dvsa.moti.web.core.MotiExceptionMapper;
+import uk.gov.dvsa.moti.web.fraudSender.FraudSenderFactory;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 import uk.gov.dvsa.moti.web.resource.SessionResource;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
+import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.service.FraudService;
 import uk.gov.dvsa.moti.web.factory.HttpSessionFactory;
 
@@ -51,6 +53,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
 
         environment.jersey().register(RequestFilter.class);
         environment.jersey().register(SessionFactoryProvider.class);
+        environment.jersey().register(FraudSenderFactory.class);
         environment.servlets().setSessionHandler(new SessionHandler());
         environment.servlets().addFilter("SessionFilter", new SessionFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
@@ -60,6 +63,10 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
             protected void configure() {
                 bindFactory(HttpSessionFactory.class).to(HttpSession.class)
                         .proxy(true).proxyForSameScope(false).in(RequestScoped.class);
+
+                bind(configuration).to(MotIntelligenceConfiguration.class);
+
+                bindFactory(FraudSenderFactory.class).to(FraudSender.class);
 
                 bind(SessionResource.class).to(SessionResourceInterface.class)
                         .proxy(true).proxyForSameScope(false).in(RequestScoped.class);

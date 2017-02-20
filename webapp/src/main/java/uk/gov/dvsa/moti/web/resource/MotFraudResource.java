@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 
 import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.service.FraudService;
+import uk.gov.dvsa.moti.web.views.FraudCookiePolicyView;
 import uk.gov.dvsa.moti.web.views.FraudFormView;
 import uk.gov.dvsa.moti.web.views.FraudSuccessView;
 import uk.gov.dvsa.moti.web.views.FraudSummaryView;
@@ -60,6 +61,12 @@ public class MotFraudResource {
     public Response displaySuccess(@NotEmpty @QueryParam("formUuid") String formUuid) {
         Optional<FraudSuccessView> optional = fraudService.displaySuccessPage(formUuid);
         return createResponse(optional, "/fraud", formUuid);
+    }
+
+    @GET
+    @Path("cookie-policy")
+    public Response displayCookiePolicyPage() {
+        return Response.ok(new FraudCookiePolicyView()).build();
     }
 
     private Response createResponse(Optional optional, String redirectUrl, String formUuid) {

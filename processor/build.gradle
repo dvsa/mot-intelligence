@@ -132,8 +132,11 @@ task BuildRpm(type: Rpm) {
     postInstall file('../scripts/rpm/postInstallProcessor')
     postUninstall file('../scripts/rpm/postUninstall')
 
-    from('src/dist/config/mot-intelligence.yml') {
+    from('config.yml.dist') {
       into '/etc/dvsa/moti-webapp/'
+      rename { String fileName ->
+          fileName.replace('config.yml.dist', 'config.yml')
+      }
       fileMode 0750
       user 'root'
       permissionGroup 'moti-webapp'

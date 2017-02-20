@@ -19,8 +19,7 @@ PIDFILE="/var/run/$SERVICE_NAME.pid"
 JAVA_PATH=$(rpm -ql $(rpm -qa | grep java-1.8.0-openjdk-headless) | grep -E "bin/java$") #TODO Fix this, this is ugly
 HOME_DIR="/opt/dvsa/$SERVICE_NAME"
 APP_PATH="$HOME_DIR/lib/$JAR_NAME"
-CONFIG_PATH="$HOME_DIR/conf/mot-intelligence.yml"
-LOGGING_PATH="$HOME_DIR/conf/log4j.properties"
+CONFIG_PATH="$HOME_DIR/conf/config.yml"
 LOG_FILE="/var/log/dvsa/$SERVICE_NAME.log"
 #LOCKFILE="/var/run/$SERVICE_NAME.lock"
 USER="$SERVICE_NAME"
@@ -56,7 +55,7 @@ check_the_pid()
 
 start() {
   echo "Starting $SERVICE_NAME:"
-  JAVA_ARG="$JAVA_PATH -Dlog4j.configuration=$LOGGING_PATH -jar $APP_PATH server $CONFIG_PATH"
+  JAVA_ARG="$JAVA_PATH -jar $APP_PATH server $CONFIG_PATH"
   daemonize -c $HOME_DIR -p $PIDFILE -u $USER -v -a $JAVA_ARG
   #Wait and check if the app has started
   sleep 2s

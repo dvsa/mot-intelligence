@@ -9,4 +9,9 @@ s3:
         secretKey:
         bucket: mot-intelligence-fb
         rootFolder: root/
-destinationFilePath: ExampleFilePath.xml
+storage:
+    maxDownloadedFilesLimit: 1000
+    downloadedFilesPrefix:
+    destinationFilePath: documents.tar.gz
+tarFile:
+    manifestFileName: documents-manifest.txt

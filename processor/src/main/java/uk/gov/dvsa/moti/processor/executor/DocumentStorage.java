@@ -31,8 +31,9 @@ public class DocumentStorage {
 
     public List<File> downloadFiles() {
         logger.info("Starting file download...");
+        String prefix = null != storageConfiguration.getDownloadedFilesPrefix() ? storageConfiguration.getDownloadedFilesPrefix() : "";
         List<File> fileList = downloader.getMultiple(
-                storageConfiguration.getDownloadedFilesPrefix(),
+                prefix,
                 storageConfiguration.getMaxDownloadedFilesLimit()
         );
         logger.info(String.format("Downloaded %s files", fileList.size()));

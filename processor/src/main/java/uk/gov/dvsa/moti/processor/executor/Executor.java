@@ -65,7 +65,7 @@ public class Executor {
 
     private void deleteProcessedFiles(List<File> files) {
         for (int i = 1; i <= MAX_ITERATION_COUNT; i++) {
-            logger.info(Markers.append("context", new HashMap.SimpleEntry<>("iteration", i)), "Running processor application");
+            logger.info(Markers.append("context", new HashMap.SimpleEntry<>("iteration", i)), "Deleting processed files");
             try {
                 documentStorage.deleteFiles(files);
                 return;

@@ -11,11 +11,10 @@ public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     private final static DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 
     public LocalDate unmarshal(String v) throws Exception {
-        return LocalDate.parse(v, formatter);
+        return v == null ? null : LocalDate.parse(v, formatter);
     }
 
     public String marshal(LocalDate v) throws Exception {
-        return formatter.print(v);
+        return v == null ? null : formatter.print(v);
     }
-
 }

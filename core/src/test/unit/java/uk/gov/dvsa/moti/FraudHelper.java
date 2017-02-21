@@ -20,4 +20,8 @@ public class FraudHelper {
                 .setPersonName("John Smith")
                 .setVehicleReg("BD51SMR");
     }
+
+    public static Fraud createEmptyFraud() {
+        return new Fraud();
+    }
 }

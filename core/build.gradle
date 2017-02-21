@@ -19,8 +19,9 @@ sourceSets {
 }
 
 dependencies {
-    testCompile(
-            'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
+    testCompile (
+        'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
+        'com.tngtech.java:junit-dataprovider:1.10.0'
     )
     compile(
             'io.dropwizard:dropwizard-core:' + dropwizardVersion,

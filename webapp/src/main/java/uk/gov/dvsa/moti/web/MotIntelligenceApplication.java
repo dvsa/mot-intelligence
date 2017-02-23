@@ -6,22 +6,25 @@ import io.dropwizard.jersey.sessions.SessionFactoryProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
+
 import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
 import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
-import uk.gov.dvsa.moti.web.filter.RequestFilter;
-import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.core.MotiErrorHandler;
 import uk.gov.dvsa.moti.web.core.MotiExceptionMapper;
+import uk.gov.dvsa.moti.web.factory.HttpSessionFactory;
+import uk.gov.dvsa.moti.web.filter.RequestFilter;
+import uk.gov.dvsa.moti.web.filter.SessionFilter;
+import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSenderFactory;
+import uk.gov.dvsa.moti.web.healthCheck.MotiHealthCheck;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 import uk.gov.dvsa.moti.web.resource.SessionResource;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
-import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.service.FraudService;
-import uk.gov.dvsa.moti.web.factory.HttpSessionFactory;
 
 import java.util.EnumSet;
 
@@ -77,5 +80,9 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
 
         environment.jersey().register(MotiExceptionMapper.class);
         environment.getApplicationContext().setErrorHandler(new MotiErrorHandler());
+
+        MotiHealthCheck healthCheck = new MotiHealthCheck(configuration);
+        environment.healthChecks().register("s3-check", healthCheck);
+        environment.metrics().register("io.moti.s3.responseTime", healthCheck);
     }
 }

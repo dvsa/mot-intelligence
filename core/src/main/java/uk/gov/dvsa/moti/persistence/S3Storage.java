@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class S3Storage implements FileStorage {
-    private AmazonS3Client client;
+public class S3Storage implements FileStorage {
+    protected AmazonS3Client client;
     private String storeRoot;
-    private String bucket;
+    protected String bucket;
 
     public S3Storage(String bucket, String prefix) {
         this(bucket, prefix, null, null);

@@ -1,11 +1,12 @@
 {{#partial "title"}}
-    <h1>Something went wrong!</h1>
+    Sorry, we're experiencing technical difficulties
 {{/partial}}
 
-{{#partial "lede"}}
-    <div class="info-notice">
-        <p>A log of this error has been sent to <a href="/">DVSA MOT</a></p>
+{{#partial "content"}}
+    <div class="text">
+        <p>Please try again later.</p>
     </div>
+    {{> uk/gov/dvsa/moti/web/views/partials/tryagain }}
 {{/partial}}
 
 {{> uk/gov/dvsa/moti/web/views/master }}

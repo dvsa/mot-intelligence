@@ -11,10 +11,11 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 
-import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
 import uk.gov.dvsa.moti.web.bundle.FraudUrlViewHelperBundle;
+import uk.gov.dvsa.moti.web.bundle.FormHelpersBundle;
 import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
 import uk.gov.dvsa.moti.web.filter.CsrfTokenFilter;
+import uk.gov.dvsa.moti.web.core.honeypot.HoneypotFilter;
 import uk.gov.dvsa.moti.web.filter.RequestFilter;
 import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.core.MotiErrorHandler;
@@ -51,7 +52,7 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         bootstrap.addBundle(new ViewBundle<>());
         bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
         bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web", "/robots.txt", "robots.txt", "robots"));
-        bootstrap.addBundle(new DisplayFormElementHelperBundle());
+        bootstrap.addBundle(new FormHelpersBundle());
         bootstrap.addBundle(new FraudUrlViewHelperBundle());
     }
 
@@ -68,7 +69,8 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         environment.servlets().setSessionHandler(new SessionHandler());
         environment.servlets().addFilter("SessionFilter", new SessionFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
-        environment.servlets().addFilter("VerifyCsrfTokenFilter", new VerifyCsrfTokenFilter())
+        environment.servlets().addFilter("VerifyCsrfTokenFilter", new VerifyCsrfTokenFilter());
+        environment.servlets().addFilter("HoneypotFilter", new HoneypotFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
         environment.jersey().register(new AbstractBinder() {

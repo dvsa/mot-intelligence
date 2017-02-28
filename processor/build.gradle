@@ -120,9 +120,9 @@ task BuildRpm(type: Rpm) {
     os LINUX
     type BINARY
 
-    preInstall file('../scripts/rpm/preInstall')
+    preInstall file('../scripts/rpm/preInstallProcessor')
     postInstall file('../scripts/rpm/postInstallProcessor')
-    postUninstall file('../scripts/rpm/postUninstall')
+    postUninstall file('../scripts/rpm/postUninstallProcessor')
 
     from('config.yml.dist') {
       into '/etc/dvsa/moti-webapp/'

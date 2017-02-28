@@ -10,7 +10,8 @@
                         "logger": "%logger",
                         "level": "%level",
                         "thread": "%thread",
-                        "message": "%message"
+                        "message": "%message",
+                        "exception": "%exception"
                         }
                     </pattern>
                 </pattern>

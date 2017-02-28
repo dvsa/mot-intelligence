@@ -10,7 +10,7 @@ task wrapper(type: Wrapper) {
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
-mainClassName = 'uk.gov.dvsa.moti.processor.ProcessorApplication'
+mainClassName = 'uk.gov.dvsa.moti.processing.ProcessorApplication'
 
 jar {
     archiveName "${baseName}.${extension}"

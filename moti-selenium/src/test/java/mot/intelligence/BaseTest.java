@@ -11,13 +11,12 @@ import mot.intelligence.framework.config.webdriver.WebDriverConfigurator;
 import mot.intelligence.framework.listeners.TestListener;
 import mot.intelligence.helper.Utilities.Logger;
 import mot.intelligence.navigation.PageNavigator;
-import ru.yandex.qatools.allure.annotations.Step;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Listeners(TestListener.class)
-public abstract class DslTest {
+public abstract class BaseTest {
 
     private MotAppDriver driver = null;
     protected static SimpleDateFormat screenshotDateFormat =
@@ -27,15 +26,6 @@ public abstract class DslTest {
         new ThreadLocal<>();
 
     protected PageNavigator pageNavigator = new PageNavigator();
-
-    /**
-     * This is an allure report annotation
-     * When used, the report will printout the content of String value
-     * See uk.gov.dvsa.ui.views.EventHistoryViewTests for usage
-     */
-    @Step("{0}")
-    protected void step(String value) {
-    }
 
     @BeforeMethod(alwaysRun = true)
     public void setupBaseTest() {

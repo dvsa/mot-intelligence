@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 
 import mot.intelligence.helper.PageInteractionHelper;
 import mot.intelligence.helper.Utilities;
-import ru.yandex.qatools.allure.annotations.Attachment;
 
 public class TestListener extends TestListenerAdapter implements ITestListener {
 
@@ -57,7 +56,6 @@ public class TestListener extends TestListenerAdapter implements ITestListener {
         return (result.getEndMillis() - result.getStartMillis()) / 1000f;
     }
 
-    @Attachment(value = "{0}")
     private byte[] saveImageAttachment(String imageName){
         try {
             File scrFile = (PageInteractionHelper.getDriver()).getScreenshotAs(OutputType.FILE);

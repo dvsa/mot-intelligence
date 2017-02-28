@@ -1,2 +1,2 @@
-include 'webapp', 'processor', 'core'
+include 'webapp', 'processor', 'core', 'moti-selenium'
 rootProject.name = 'mot-intelligence'

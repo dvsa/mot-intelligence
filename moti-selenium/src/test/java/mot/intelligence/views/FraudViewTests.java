@@ -4,15 +4,14 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import mot.intelligence.DslTest;
+import mot.intelligence.BaseTest;
 import mot.intelligence.ui.pages.FraudPage;
 import mot.intelligence.ui.pages.ReportPage;
 import mot.intelligence.ui.pages.SummaryPage;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.testng.Assert.assertTrue;
 
-public class FraudViewTests extends DslTest {
+public class FraudViewTests extends BaseTest {
 
     String reg = "registr";
     String locationName = "locationName";
@@ -21,7 +20,7 @@ public class FraudViewTests extends DslTest {
     String personAddress = "personAddress";
     String comments = "comments";
 
-    @Test(groups = {"BVT"})
+    @Test
     public void summaryPageContainsEnteredFraudFormValues() throws IOException {
         //Given I am on the Fraud Page
         FraudPage fraudPage = pageNavigator.goToFraudPage();
@@ -37,10 +36,10 @@ public class FraudViewTests extends DslTest {
                 .clickContinue();
 
         //Then all values was populated correctly
-        assertThat(summaryPage.allValuesWasPopulatedCorrectly(reg, locationName, locationAddress, personName, personAddress, comments), is(true));
+        assertTrue(summaryPage.allValuesWasPopulatedCorrectly(reg, locationName, locationAddress, personName, personAddress, comments));
     }
 
-    @Test(groups = {"BVT"})
+    @Test
     public void whenIReturnToFormPageValuesWillBeSet() throws IOException {
         //Given I am on the Fraud Page
         FraudPage fraudPage = pageNavigator.goToFraudPage();
@@ -57,10 +56,10 @@ public class FraudViewTests extends DslTest {
                 .clickBackButton();
 
         //Then all values was populated correctly
-        assertThat(fraudPageAfterNavigation.allValuesWasPopulatedCorrectly(reg, locationName, locationAddress, personName, personAddress, comments), is(true));
+        assertTrue(fraudPageAfterNavigation.allValuesWasPopulatedCorrectly(reg, locationName, locationAddress, personName, personAddress, comments));
     }
 
-    @Test(groups = {"BVT"})
+    @Test
     public void whenFormPopulatedCorrectlyReportWillBeSent() throws IOException {
         //Given I am on the Fraud Page
         FraudPage fraudPage = pageNavigator.goToFraudPage();
@@ -77,6 +76,6 @@ public class FraudViewTests extends DslTest {
                 .clickSendReportButton();
 
         //Then all values was populated correctly
-        assertThat(reportPage.confirmationMessageCorrect(), is(true));
+        assertTrue(reportPage.confirmationMessageCorrect());
     }
 }

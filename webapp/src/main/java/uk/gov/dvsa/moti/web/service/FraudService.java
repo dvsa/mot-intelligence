@@ -2,6 +2,7 @@ package uk.gov.dvsa.moti.web.service;
 
 import uk.gov.dvsa.moti.fraudserializer.xml.Fraud;
 import uk.gov.dvsa.moti.web.cookie.Cookies;
+import uk.gov.dvsa.moti.web.filter.CsrfTokenFilter;
 import uk.gov.dvsa.moti.web.form.FraudForm;
 import uk.gov.dvsa.moti.web.fraudSender.mapper.XmlFraudMapper;
 import uk.gov.dvsa.moti.web.model.CsrfToken;
@@ -74,7 +75,7 @@ public class FraudService {
     public Optional<FraudSuccessView> displaySuccessPage(HttpServletResponse response){
         if (isDataValid()) {
             sessionResource.remove();
-            Cookies.removeCookie(response, "csrf_token");
+            Cookies.removeCookie(response, CsrfTokenFilter.COOKIE_NAME);
             return Optional.of(new FraudSuccessView());
         }
 

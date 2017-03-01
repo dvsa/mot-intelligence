@@ -1,4 +1,6 @@
-package uk.gov.dvsa.moti.web.filter;
+package uk.gov.dvsa.moti.web.cookie.session;
+
+import uk.gov.dvsa.moti.web.cookie.Cookies;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -6,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -20,8 +21,10 @@ import javax.servlet.http.HttpSession;
 
 public class SessionCookieStorage {
 
-    protected void getSessionFromCookie(HttpServletRequest httpServletRequest) throws IOException, ClassNotFoundException {
-        Cookie sessionCookie = getSessionCookie(httpServletRequest);
+    private static String COOKIE_NAME = "session";
+
+    public void getSessionFromCookie(HttpServletRequest httpServletRequest) throws IOException, ClassNotFoundException {
+        Cookie sessionCookie = Cookies.getCookie(httpServletRequest, COOKIE_NAME);
 
         if (null != sessionCookie) {
             HttpSession session = httpServletRequest.getSession();
@@ -31,7 +34,7 @@ public class SessionCookieStorage {
             cookieSession.getAttributes().forEach(session::setAttribute);
         }
     }
-    protected void storeSessionInCookie(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public void storeSessionInCookie(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
 
         HttpSession session = httpServletRequest.getSession(false);
         Enumeration<String> attributeNames = session.getAttributeNames();
@@ -42,18 +45,9 @@ public class SessionCookieStorage {
 
             CookieSession cookieSession = new CookieSession();
             cookieSession.setAttributes(attributes);
-            Cookie newSessionCookie = new Cookie("session", toString(cookieSession));
-            newSessionCookie.setPath("/");
+            Cookie newSessionCookie = Cookies.createCookie(COOKIE_NAME, toString(cookieSession), "/", 1200);
             httpServletResponse.addCookie(newSessionCookie);
         }
-    }
-
-    private Cookie getSessionCookie(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null)  {
-            return Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("session")).findFirst().orElse(null);
-        }
-        return null;
     }
 
     private String toString(Serializable object) throws IOException {

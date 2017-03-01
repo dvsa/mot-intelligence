@@ -5,12 +5,14 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 
-import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.slf4j.*;
 
+import uk.gov.dvsa.moti.enums.HttpResponseCode;
+
 import java.io.IOException;
 import java.io.Writer;
+import java.util.EnumSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +29,14 @@ public class MotiErrorHandler extends ErrorHandler {
 
         Handlebars handlebars = new Handlebars(loader);
         try {
-            String errorTemplate = code == Response.SC_NOT_FOUND ? "404" : "500";
+            String errorTemplate = EnumSet
+                    .allOf(HttpResponseCode.class)
+                    .stream()
+                    .filter(errorCode -> errorCode.getCode() == code)
+                    .findAny()
+                    .orElse(HttpResponseCode.SC_INTERNAL_SERVER_ERROR)
+                    .getText();
+
             Template template = handlebars.compile(TemplatePaths.buildErrorTemplatePath(errorTemplate));
 
             return template.apply(null);

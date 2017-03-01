@@ -9,27 +9,29 @@ import javax.servlet.http.HttpSession;
 @Singleton
 public class SessionResource implements SessionResourceInterface {
 
+    private String sessionValueId = "session_value";
+
     @Inject
     HttpSession session;
 
     @Override
-    public FraudModel get(String formUuid) {
+    public FraudModel get() {
 
-        return (FraudModel) session.getAttribute(formUuid);
+        return (FraudModel) session.getAttribute(sessionValueId);
     }
 
     @Override
-    public void save(String formUuid, FraudModel object) {
+    public void save(FraudModel object) {
 
-        if(session.getAttribute(formUuid) != null) {
-            remove(formUuid);
+        if(session.getAttribute(sessionValueId) != null) {
+            remove();
         }
-        session.setAttribute(formUuid, object);
+        session.setAttribute(sessionValueId, object);
     }
 
     @Override
-    public void remove(String formUuid) {
-        session.removeAttribute(formUuid);
+    public void remove() {
+        session.removeAttribute(sessionValueId);
     }
 }
 

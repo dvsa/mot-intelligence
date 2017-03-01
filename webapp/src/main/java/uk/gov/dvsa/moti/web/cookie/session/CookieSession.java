@@ -1,9 +1,10 @@
-package uk.gov.dvsa.moti.web.filter;
+package uk.gov.dvsa.moti.web.cookie.session;
 
 import java.io.Serializable;
 import java.util.Map;
 
 public class CookieSession implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Map<String, Object> attributes;
     public Map<String, Object> getAttributes() {

@@ -36,7 +36,7 @@ public class SessionCookieStorage {
     }
     public void storeSessionInCookie(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
 
-        HttpSession session = httpServletRequest.getSession(false);
+        HttpSession session = httpServletRequest.getSession(true);
         Enumeration<String> attributeNames = session.getAttributeNames();
 
         if (attributeNames != null) {

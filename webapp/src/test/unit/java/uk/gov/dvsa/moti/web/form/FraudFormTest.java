@@ -6,7 +6,6 @@ import io.dropwizard.jackson.Jackson;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import uk.gov.dvsa.moti.web.exception.FormElementNotFoundException;
 import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 

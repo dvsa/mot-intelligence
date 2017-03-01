@@ -12,6 +12,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 
 import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
+import uk.gov.dvsa.moti.web.bundle.FraudUrlViewHelperBundle;
 import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
 import uk.gov.dvsa.moti.web.filter.CsrfTokenFilter;
 import uk.gov.dvsa.moti.web.filter.RequestFilter;
@@ -24,6 +25,7 @@ import uk.gov.dvsa.moti.web.filter.VerifyCsrfTokenFilter;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSenderFactory;
 import uk.gov.dvsa.moti.web.healthCheck.MotiHealthCheck;
 import uk.gov.dvsa.moti.web.model.CsrfToken;
+import uk.gov.dvsa.moti.web.resource.HomePageResource;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 import uk.gov.dvsa.moti.web.resource.SessionResource;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
@@ -50,12 +52,15 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web/assets", "/assets"));
         bootstrap.addBundle(new AssetsBundle("/uk/gov/dvsa/moti/web", "/robots.txt", "robots.txt", "robots"));
         bootstrap.addBundle(new DisplayFormElementHelperBundle());
+        bootstrap.addBundle(new FraudUrlViewHelperBundle());
     }
 
     @Override
     public void run(MotIntelligenceConfiguration configuration, Environment environment) {
         final MotFraudResource fraudResource = new MotFraudResource();
+        final HomePageResource homePageResource = new HomePageResource();
         environment.jersey().register(fraudResource);
+        environment.jersey().register(homePageResource);
 
         environment.jersey().register(RequestFilter.class);
         environment.jersey().register(SessionFactoryProvider.class);

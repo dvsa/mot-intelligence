@@ -1,6 +1,5 @@
 package uk.gov.dvsa.moti.web.form;
 
-import uk.gov.dvsa.moti.web.exception.FormElementNotFoundException;
 import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
 
 import javax.validation.Validation;

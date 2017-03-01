@@ -9,6 +9,7 @@ import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.slf4j.*;
 
 import uk.gov.dvsa.moti.enums.HttpResponseCode;
+import uk.gov.dvsa.moti.web.bundle.helper.CookiePolicyUrlViewHelper;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -28,6 +29,7 @@ public class MotiErrorHandler extends ErrorHandler {
         TemplateLoader loader = new ClassPathTemplateLoader();
 
         Handlebars handlebars = new Handlebars(loader);
+        handlebars.registerHelper(CookiePolicyUrlViewHelper.NAME, new CookiePolicyUrlViewHelper());
         try {
             String errorTemplate = EnumSet
                     .allOf(HttpResponseCode.class)

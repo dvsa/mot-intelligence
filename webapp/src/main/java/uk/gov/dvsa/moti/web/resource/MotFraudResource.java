@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import uk.gov.dvsa.moti.web.model.CsrfToken;
 import uk.gov.dvsa.moti.web.model.FraudModel;
+import uk.gov.dvsa.moti.web.routing.FraudRoutes;
 import uk.gov.dvsa.moti.web.service.FraudService;
 import uk.gov.dvsa.moti.web.views.FraudCookiePolicyView;
 import uk.gov.dvsa.moti.web.views.FraudFormView;
@@ -16,11 +17,10 @@ import uk.gov.dvsa.moti.web.views.FraudSummaryView;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.Optional;
 
-@Path("/fraud")
+@Path(FraudRoutes.ROOT)
 @Produces(MediaType.TEXT_HTML)
 public class MotFraudResource {
 
@@ -43,57 +43,54 @@ public class MotFraudResource {
             view.get().setCsrfToken(csrfToken.getCsrfToken());
         }
 
-        return createResponse(view, "/fraud/summary");
+        return createResponse(view, FraudRoutes.getSummaryUri());
     }
 
     @GET
     @CacheControl(noStore = true)
-    @Path("summary")
+    @Path(FraudRoutes.SUMMARY)
     public Response displaySummary(@Context CsrfToken csrfToken) {
         Optional<FraudSummaryView> view = fraudService.displaySummary();
         if (view.isPresent()) {
             view.get().setCsrfToken(csrfToken.getCsrfToken());
         }
-        return createResponse(view, "/fraud");
+        return createResponse(view, FraudRoutes.getFormUri());
     }
 
     @POST
-    @Path("summary")
+    @Path(FraudRoutes.SUMMARY)
     public Response sendReport(@CookieParam("csrf_token") String formUuid) {
         if (fraudService.sendReport(formUuid)) {
-            return redirectTo("/fraud/report");
+            return redirectTo(FraudRoutes.getReportUri());
         }
 
-        return redirectTo("/fraud");
+        return redirectTo(FraudRoutes.getFormUri());
     }
 
     @GET
     @CacheControl(noStore = true)
-    @Path("report")
+    @Path(FraudRoutes.REPORT)
     public Response displaySuccess(@Context HttpServletResponse response) {
         Optional<FraudSuccessView> optional = fraudService.displaySuccessPage(response);
-        return createResponse(optional, "/fraud");
+        return createResponse(optional, FraudRoutes.getFormUri());
     }
 
     @GET
-    @Path("cookie-policy")
+    @CacheControl(noStore = true)
+    @Path(FraudRoutes.COOKIE_POLICY)
     public Response displayCookiePolicyPage() {
         return Response.ok(new FraudCookiePolicyView()).build();
     }
 
-    private Response createResponse(Optional optional, String redirectUrl) {
+    private Response createResponse(Optional optional, URI uri) {
         if (optional.isPresent()) {
             return Response.ok(optional.get()).build();
         }
 
-        return redirectTo(redirectUrl);
+        return redirectTo(uri);
     }
 
-    private URI getUri(String path) {
-        return UriBuilder.fromUri(path).build();
-    }
-
-    private Response redirectTo(String path) {
-        return Response.seeOther(getUri(path)).build();
+    private Response redirectTo(URI uri) {
+        return Response.seeOther(uri).build();
     }
 }

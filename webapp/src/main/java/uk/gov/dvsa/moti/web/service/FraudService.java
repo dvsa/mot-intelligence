@@ -1,9 +1,7 @@
 package uk.gov.dvsa.moti.web.service;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-
 import uk.gov.dvsa.moti.fraudserializer.xml.Fraud;
+import uk.gov.dvsa.moti.web.cookie.Cookies;
 import uk.gov.dvsa.moti.web.form.FraudForm;
 import uk.gov.dvsa.moti.web.fraudSender.mapper.XmlFraudMapper;
 import uk.gov.dvsa.moti.web.model.FraudModel;
@@ -14,6 +12,7 @@ import uk.gov.dvsa.moti.web.views.FraudSuccessView;
 import uk.gov.dvsa.moti.web.views.FraudSummaryView;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.UriBuilder;
 
 import java.net.URI;
@@ -34,15 +33,15 @@ public class FraudService {
         this.fraudSender = fraudSender;
     }
 
-    public FraudFormView displayForm(String formUuid) {
-        FraudModel model = getModel(formUuid);
+    public FraudFormView displayForm() {
+        FraudModel model = getModel();
         return new FraudFormView(createForm(model));
     }
 
-    public Optional<FraudFormView> validateData(FraudModel model, String formUuid) {
+    public Optional<FraudFormView> validateData(FraudModel model) {
         FraudForm form = createForm(model);
         if (form.isValid()) {
-            sessionResource.save(formUuid, model);
+            sessionResource.save(model);
 
             return Optional.empty();
         }
@@ -50,10 +49,10 @@ public class FraudService {
         return Optional.of(new FraudFormView(form));
     }
 
-    public Optional<FraudSummaryView> displaySummary(String formUuid) {
-        if (isDataValid(formUuid)) {
-            FraudModel model = getModel(formUuid);
-            String backLink = getUri("/fraud", formUuid).toString();
+    public Optional<FraudSummaryView> displaySummary() {
+        if (isDataValid()) {
+            FraudModel model = getModel();
+            String backLink = getUri("/fraud").toString();
             return Optional.of(new FraudSummaryView(model, backLink));
         }
 
@@ -61,20 +60,20 @@ public class FraudService {
     }
 
     public boolean sendReport(String formUuid) {
-        if (isDataValid(formUuid)) {
-            FraudModel model = getModel(formUuid);
+        if (isDataValid()) {
+            FraudModel model = getModel();
             Fraud xmlFraudModel = XmlFraudMapper.getXmlFraudModel(model, formUuid);
             fraudSender.send(xmlFraudModel);
-
             return true;
         }
 
         return false;
     }
 
-    public Optional<FraudSuccessView> displaySuccessPage(String formUuid){
-        if (isDataValid(formUuid)) {
-            sessionResource.remove(formUuid);
+    public Optional<FraudSuccessView> displaySuccessPage(HttpServletResponse response){
+        if (isDataValid()) {
+            sessionResource.remove();
+            Cookies.removeCookie(response, "csrf_token");
             return Optional.of(new FraudSuccessView());
         }
 
@@ -85,13 +84,13 @@ public class FraudService {
         return new FraudForm(model);
     }
 
-    private boolean isDataValid(String formUuid) {
-        FraudModel model = getModel(formUuid);
+    private boolean isDataValid() {
+        FraudModel model = getModel();
         return createForm(model).isValid();
     }
 
-    private FraudModel getModel(String formUuid) {
-        FraudModel model = sessionResource.get(formUuid);
+    private FraudModel getModel() {
+        FraudModel model = sessionResource.get();
         if (model == null) {
             model = new FraudModel();
         }
@@ -99,7 +98,7 @@ public class FraudService {
         return model;
     }
 
-    private URI getUri(String path, String formUuid) {
-        return UriBuilder.fromUri(path).queryParam("formUuid", formUuid).build();
+    private URI getUri(String path) {
+        return UriBuilder.fromUri(path).build();
     }
 }

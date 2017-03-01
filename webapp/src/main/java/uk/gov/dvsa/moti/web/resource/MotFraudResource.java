@@ -1,9 +1,12 @@
 package uk.gov.dvsa.moti.web.resource;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import io.dropwizard.jersey.caching.CacheControl;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import uk.gov.dvsa.moti.web.model.CsrfToken;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.service.FraudService;
 import uk.gov.dvsa.moti.web.views.FraudCookiePolicyView;
@@ -16,7 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.Optional;
-import java.util.UUID;
 
 @Path("/fraud")
 @Produces(MediaType.TEXT_HTML)
@@ -26,41 +28,45 @@ public class MotFraudResource {
     private FraudService fraudService;
 
     @GET
-    public Response displayForm(@QueryParam("formUuid") String formUuid) {
-        FraudFormView view = fraudService.displayForm(formUuid);
+    @CacheControl(noStore = true)
+    public Response displayForm(@CookieParam("csrf_token") String formUuid) {
+        FraudFormView view = fraudService.displayForm();
         return Response.ok(view).build();
     }
 
     @POST
-    public Response validateForm(@QueryParam("formUuid") String formUuid, @BeanParam FraudModel model) {
-        formUuid = generateUuidIfNull(formUuid);
-        Optional<FraudFormView> optional = fraudService.validateData(model, formUuid);
+    public Response validateForm(@Context CsrfToken csrfToken, @CookieParam("csrf_token") String formUuid, @BeanParam FraudModel model) {
+        Optional<FraudFormView> optional = fraudService.validateData(model);
+        csrfToken.getCsrfToken();
 
-        return createResponse(optional, "/fraud/summary", formUuid);
+        return createResponse(optional, "/fraud/summary");
     }
 
     @GET
+    @CacheControl(noStore = true)
     @Path("summary")
-    public Response displaySummary(@NotEmpty @QueryParam("formUuid") String formUuid) {
-        Optional<FraudSummaryView> optional = fraudService.displaySummary(formUuid);
-        return createResponse(optional, "/fraud", formUuid);
+    public Response displaySummary(@Context CsrfToken csrfToken, @CookieParam("csrf_token") String formUuid) {
+        Optional<FraudSummaryView> optional = fraudService.displaySummary();
+        csrfToken.getCsrfToken();
+        return createResponse(optional, "/fraud");
     }
 
     @POST
     @Path("summary")
-    public Response sendReport(@NotEmpty @QueryParam("formUuid") String formUuid) {
+    public Response sendReport(@CookieParam("csrf_token") String formUuid) {
         if (fraudService.sendReport(formUuid)) {
-            return redirectTo("/fraud/report", formUuid);
+            return redirectTo("/fraud/report");
         }
 
-        return redirectTo("/fraud", formUuid);
+        return redirectTo("/fraud");
     }
 
     @GET
+    @CacheControl(noStore = true)
     @Path("report")
-    public Response displaySuccess(@NotEmpty @QueryParam("formUuid") String formUuid) {
-        Optional<FraudSuccessView> optional = fraudService.displaySuccessPage(formUuid);
-        return createResponse(optional, "/fraud", formUuid);
+    public Response displaySuccess(@CookieParam("csrf_token") String formUuid, @Context HttpServletResponse response) {
+        Optional<FraudSuccessView> optional = fraudService.displaySuccessPage(response);
+        return createResponse(optional, "/fraud");
     }
 
     @GET
@@ -69,26 +75,19 @@ public class MotFraudResource {
         return Response.ok(new FraudCookiePolicyView()).build();
     }
 
-    private Response createResponse(Optional optional, String redirectUrl, String formUuid) {
+    private Response createResponse(Optional optional, String redirectUrl) {
         if (optional.isPresent()) {
             return Response.ok(optional.get()).build();
         }
 
-        return redirectTo(redirectUrl, formUuid);
+        return redirectTo(redirectUrl);
     }
 
-    private URI getUri(String path, String formUuid) {
-        return UriBuilder.fromUri(path).queryParam("formUuid", formUuid).build();
+    private URI getUri(String path) {
+        return UriBuilder.fromUri(path).build();
     }
 
-    private Response redirectTo(String path, String formUuid) {
-        return Response.seeOther(getUri(path, formUuid)).build();
-    }
-
-    private String generateUuidIfNull(String formUuid) {
-        if (formUuid == null) {
-            formUuid = UUID.randomUUID().toString();
-        }
-        return formUuid;
+    private Response redirectTo(String path) {
+        return Response.seeOther(getUri(path)).build();
     }
 }

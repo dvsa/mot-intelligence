@@ -18,6 +18,8 @@ import uk.gov.dvsa.moti.web.views.FraudSummaryView;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,7 +35,7 @@ public class FraudServiceTest {
     public void displayForm_returnsView() throws IOException {
         FraudService service = new FraudService(createSessionResource(getModel()), getFraudSenderServiceCorrect());
 
-        assertEquals(FraudFormView.class, service.displayForm(FORM_UUID).getClass());
+        assertEquals(FraudFormView.class, service.displayForm().getClass());
     }
 
     @Test
@@ -41,7 +43,7 @@ public class FraudServiceTest {
         FraudModel model = getModel();
         FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
-        Optional<FraudFormView> optional = service.validateData(model, FORM_UUID);
+        Optional<FraudFormView> optional = service.validateData(model);
         assertFalse(optional.isPresent());
     }
 
@@ -50,7 +52,7 @@ public class FraudServiceTest {
         FraudModel model = getModelWithInvalidData();
         FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
-        Optional<FraudFormView> optional = service.validateData(model, FORM_UUID);
+        Optional<FraudFormView> optional = service.validateData(model);
         assertEquals(FraudFormView.class, optional.get().getClass());
     }
 
@@ -59,7 +61,7 @@ public class FraudServiceTest {
         FraudModel model = getModel();
         FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
-        Optional<FraudSummaryView> optional = service.displaySummary(FORM_UUID);
+        Optional<FraudSummaryView> optional = service.displaySummary();
         assertEquals(FraudSummaryView.class, optional.get().getClass());
     }
 
@@ -68,7 +70,7 @@ public class FraudServiceTest {
         FraudModel model = getModelWithInvalidData();
         FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
-        Optional<FraudSummaryView> optional = service.displaySummary(FORM_UUID);
+        Optional<FraudSummaryView> optional = service.displaySummary();
         assertFalse(optional.isPresent());
     }
 
@@ -90,19 +92,21 @@ public class FraudServiceTest {
 
     @Test
     public void displaySuccessPage_returnsView_whenModelDataIsValid() throws IOException {
+        HttpServletResponse resp = mock(HttpServletResponse.class);
         FraudModel model = getModel();
         FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
-        Optional<FraudSuccessView> optional = service.displaySuccessPage(FORM_UUID);
+        Optional<FraudSuccessView> optional = service.displaySuccessPage(resp);
         assertEquals(FraudSuccessView.class, optional.get().getClass());
     }
 
     @Test
     public void displaySuccessPage_returnsEmptyView_whenModelDataIsInvalid() throws IOException {
+        HttpServletResponse resp = mock(HttpServletResponse.class);
         FraudModel model = getModelWithInvalidData();
         FraudService service = new FraudService(createSessionResource(model), getFraudSenderServiceCorrect());
 
-        Optional<FraudSuccessView> optional = service.displaySuccessPage(FORM_UUID);
+        Optional<FraudSuccessView> optional = service.displaySuccessPage(resp);
         assertFalse(optional.isPresent());
     }
 
@@ -124,7 +128,7 @@ public class FraudServiceTest {
 
     private SessionResourceInterface createSessionResource(FraudModel model) {
         SessionResourceInterface sessionResource = mock(SessionResourceInterface.class);
-        when(sessionResource.get(FORM_UUID)).thenReturn(model);
+        when(sessionResource.get()).thenReturn(model);
 
         return sessionResource;
     }

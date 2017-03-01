@@ -13,14 +13,16 @@ import org.glassfish.jersey.process.internal.RequestScoped;
 
 import uk.gov.dvsa.moti.web.bundle.DisplayFormElementHelperBundle;
 import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
+import uk.gov.dvsa.moti.web.filter.CsrfTokenFilter;
+import uk.gov.dvsa.moti.web.filter.RequestFilter;
+import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.core.MotiErrorHandler;
 import uk.gov.dvsa.moti.web.core.MotiExceptionMapper;
 import uk.gov.dvsa.moti.web.factory.HttpSessionFactory;
-import uk.gov.dvsa.moti.web.filter.RequestFilter;
-import uk.gov.dvsa.moti.web.filter.SessionFilter;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSenderFactory;
 import uk.gov.dvsa.moti.web.healthCheck.MotiHealthCheck;
+import uk.gov.dvsa.moti.web.model.CsrfToken;
 import uk.gov.dvsa.moti.web.resource.MotFraudResource;
 import uk.gov.dvsa.moti.web.resource.SessionResource;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
@@ -75,9 +77,12 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
                         .proxy(true).proxyForSameScope(false).in(RequestScoped.class);
 
                 bind(FraudService.class).to(FraudService.class);
+
+                bind(CsrfToken.class).to(CsrfToken.class).in(RequestScoped.class);
             }
         });
 
+        environment.jersey().register(CsrfTokenFilter.class);
         environment.jersey().register(MotiExceptionMapper.class);
         environment.getApplicationContext().setErrorHandler(new MotiErrorHandler());
 

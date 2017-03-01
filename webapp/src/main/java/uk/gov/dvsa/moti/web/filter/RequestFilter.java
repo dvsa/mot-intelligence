@@ -1,5 +1,7 @@
 package uk.gov.dvsa.moti.web.filter;
 
+import uk.gov.dvsa.moti.web.cookie.session.SessionCookieStorage;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;

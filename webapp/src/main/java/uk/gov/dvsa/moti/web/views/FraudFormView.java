@@ -4,11 +4,21 @@ import io.dropwizard.views.View;
 import uk.gov.dvsa.moti.web.form.FraudForm;
 import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
 import uk.gov.dvsa.moti.web.form.element.FormElementOptions;
+import uk.gov.dvsa.moti.web.form.element.HiddenElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 
 public class FraudFormView extends View {
     private String backLink = "http://www.gov.uk/";
     private FraudForm form;
+    private String csrfToken;
+
+    public void setCsrfToken(String csrfToken) {
+        this.csrfToken = csrfToken;
+    }
+
+    public String getCsrfToken() {
+        return this.csrfToken;
+    }
 
     public FraudFormView(FraudForm form) {
         super("fraud/form.hbs");
@@ -26,6 +36,12 @@ public class FraudFormView extends View {
 
         AbstractFormElement element = form.getElement(FraudModel.PARAM_VEHICLE_REG);
         element.setOptions(options);
+
+        return element;
+    }
+
+    public AbstractFormElement getCsrfTokenElement() {
+        AbstractFormElement element = new HiddenElement(FraudModel.PARAM_CSRF, this.getCsrfToken());
 
         return element;
     }

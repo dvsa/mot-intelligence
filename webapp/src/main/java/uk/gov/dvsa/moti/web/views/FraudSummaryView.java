@@ -1,12 +1,17 @@
 package uk.gov.dvsa.moti.web.views;
 
 import io.dropwizard.views.View;
+
+import uk.gov.dvsa.moti.web.form.FraudForm;
+import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
+import uk.gov.dvsa.moti.web.form.element.HiddenElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.views.model.SummaryTable;
 
 public class FraudSummaryView extends View {
     private FraudModel model;
     private String backLink;
+    private String csrfToken;
 
     public FraudSummaryView(FraudModel model, String backLink) {
         super("fraud/summary.hbs");
@@ -46,5 +51,17 @@ public class FraudSummaryView extends View {
 
     public String getBackLink() {
         return backLink;
+    }
+
+    public String getCsrfToken() {
+        return csrfToken;
+    }
+
+    public void setCsrfToken(String csrfToken) {
+        this.csrfToken = csrfToken;
+    }
+
+    public AbstractFormElement getCsrfTokenElement() {
+        return new HiddenElement(FraudModel.PARAM_CSRF, this.csrfToken);
     }
 }

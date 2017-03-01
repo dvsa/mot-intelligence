@@ -4,6 +4,7 @@ import uk.gov.dvsa.moti.fraudserializer.xml.Fraud;
 import uk.gov.dvsa.moti.web.cookie.Cookies;
 import uk.gov.dvsa.moti.web.form.FraudForm;
 import uk.gov.dvsa.moti.web.fraudSender.mapper.XmlFraudMapper;
+import uk.gov.dvsa.moti.web.model.CsrfToken;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;

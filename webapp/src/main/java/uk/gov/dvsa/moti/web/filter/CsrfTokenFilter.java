@@ -24,7 +24,7 @@ public class CsrfTokenFilter implements ContainerRequestFilter {
     @Context
     private HttpServletResponse webResponse;
 
-    private static String COOKIE_NAME = "csrf_token";
+    public static String COOKIE_NAME = "csrf_token";
     private String cookiePath = "/";
     private int cookieMaxAge = 1200;
 

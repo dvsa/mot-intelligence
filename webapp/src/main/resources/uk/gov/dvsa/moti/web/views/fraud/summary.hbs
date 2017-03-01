@@ -17,6 +17,7 @@
     {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=descriptionTable}}
 
     <form action="" method="POST">
+        {{{display_form_element csrfTokenElement}}}
         <nav class="content-navigation">
             <input type="submit" value="Send report" id="continue" class="button">
             <ul class="content-navigation__secondary">

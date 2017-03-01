@@ -29,26 +29,32 @@ public class MotFraudResource {
 
     @GET
     @CacheControl(noStore = true)
-    public Response displayForm(@CookieParam("csrf_token") String formUuid) {
+    public Response displayForm(@Context CsrfToken csrfToken) {
         FraudFormView view = fraudService.displayForm();
+        view.setCsrfToken(csrfToken.getCsrfToken());
         return Response.ok(view).build();
     }
 
     @POST
-    public Response validateForm(@Context CsrfToken csrfToken, @CookieParam("csrf_token") String formUuid, @BeanParam FraudModel model) {
-        Optional<FraudFormView> optional = fraudService.validateData(model);
-        csrfToken.getCsrfToken();
+    public Response validateForm(@Context CsrfToken csrfToken, @BeanParam FraudModel model) {
+        Optional<FraudFormView> view = fraudService.validateData(model);
 
-        return createResponse(optional, "/fraud/summary");
+        if (view.isPresent()) {
+            view.get().setCsrfToken(csrfToken.getCsrfToken());
+        }
+
+        return createResponse(view, "/fraud/summary");
     }
 
     @GET
     @CacheControl(noStore = true)
     @Path("summary")
-    public Response displaySummary(@Context CsrfToken csrfToken, @CookieParam("csrf_token") String formUuid) {
-        Optional<FraudSummaryView> optional = fraudService.displaySummary();
-        csrfToken.getCsrfToken();
-        return createResponse(optional, "/fraud");
+    public Response displaySummary(@Context CsrfToken csrfToken) {
+        Optional<FraudSummaryView> view = fraudService.displaySummary();
+        if (view.isPresent()) {
+            view.get().setCsrfToken(csrfToken.getCsrfToken());
+        }
+        return createResponse(view, "/fraud");
     }
 
     @POST
@@ -64,7 +70,7 @@ public class MotFraudResource {
     @GET
     @CacheControl(noStore = true)
     @Path("report")
-    public Response displaySuccess(@CookieParam("csrf_token") String formUuid, @Context HttpServletResponse response) {
+    public Response displaySuccess(@Context HttpServletResponse response) {
         Optional<FraudSuccessView> optional = fraudService.displaySuccessPage(response);
         return createResponse(optional, "/fraud");
     }

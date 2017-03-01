@@ -20,6 +20,7 @@ import uk.gov.dvsa.moti.web.core.MotiErrorHandler;
 import uk.gov.dvsa.moti.web.core.MotiExceptionMapper;
 import uk.gov.dvsa.moti.web.factory.HttpSessionFactory;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
+import uk.gov.dvsa.moti.web.filter.VerifyCsrfTokenFilter;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSenderFactory;
 import uk.gov.dvsa.moti.web.healthCheck.MotiHealthCheck;
 import uk.gov.dvsa.moti.web.model.CsrfToken;
@@ -61,6 +62,8 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         environment.jersey().register(FraudSenderFactory.class);
         environment.servlets().setSessionHandler(new SessionHandler());
         environment.servlets().addFilter("SessionFilter", new SessionFilter())
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+        environment.servlets().addFilter("VerifyCsrfTokenFilter", new VerifyCsrfTokenFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 
         environment.jersey().register(new AbstractBinder() {

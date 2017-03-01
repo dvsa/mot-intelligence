@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.ws.rs.FormParam;
 
 public class FraudModel implements Serializable {
+    public static final String PARAM_CSRF = "csrfToken";
     public static final String PARAM_VEHICLE_REG = "vehicleReg";
     public static final String PARAM_LOCATION_NAME = "locationName";
     public static final String PARAM_LOCATION_ADDRESS = "locationAddress";

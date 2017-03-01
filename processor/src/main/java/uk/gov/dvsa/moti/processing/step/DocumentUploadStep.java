@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 
 public class DocumentUploadStep implements StepInterface {
     private DocumentStorage documentStorage;
-    private ByteArrayOutputStream documentToUpload;
+    private byte[] documentToUpload;
 
     @Inject
     public DocumentUploadStep(DocumentStorage documentStorage) {
@@ -25,7 +25,7 @@ public class DocumentUploadStep implements StepInterface {
         return "Document upload";
     }
 
-    public DocumentUploadStep setDocumentToUpload(ByteArrayOutputStream documentToUpload) {
+    public DocumentUploadStep setDocumentToUpload(byte[] documentToUpload) {
         this.documentToUpload = documentToUpload;
         return this;
     }

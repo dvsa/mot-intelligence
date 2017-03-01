@@ -9,6 +9,8 @@ public class ProcessorConfiguration {
     private StorageConfiguration storageConfiguration;
     @JsonProperty("tarFile")
     private TarFileConfiguration tarFileConfiguration;
+    @JsonProperty("settings")
+    private ProcessorSettingsConfiguration processorSettingsConfiguration;
 
     public S3Configuration getS3Configuration() {
         return s3configuration;
@@ -20,5 +22,9 @@ public class ProcessorConfiguration {
 
     public TarFileConfiguration getTarFileConfiguration() {
         return tarFileConfiguration;
+    }
+
+    public ProcessorSettingsConfiguration getProcessorSettingsConfiguration() {
+        return processorSettingsConfiguration;
     }
 }

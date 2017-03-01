@@ -16,4 +16,8 @@ public class StorageConfiguration {
     public String getDestinationFilePath() {
         return destinationFilePath;
     }
+
+    public void setDestinationFilePath(String destinationFilePath) {
+        this.destinationFilePath = destinationFilePath;
+    }
 }

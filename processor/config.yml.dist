@@ -12,6 +12,9 @@ s3:
 storage:
     maxDownloadedFilesLimit: 1000
     downloadedFilesPrefix:
-    destinationFilePath: documents.tar.gz
+    destinationFilePath: fraud-reports-[TIMESTAMP].xml
 tarFile:
     manifestFileName: documents-manifest.txt
+settings:
+    useCompression: true
+

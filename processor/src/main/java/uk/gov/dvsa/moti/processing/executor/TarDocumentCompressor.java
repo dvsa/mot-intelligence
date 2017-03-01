@@ -27,13 +27,13 @@ public class TarDocumentCompressor implements DocumentCompressorInterface {
         this.manifestFileName = tarFileConfiguration.getManifestFileName();
     }
 
-    public ByteArrayOutputStream compressFiles(String documentAsString, String documentFilename, String manifestContent) {
+    public byte[] compressFiles(byte[] documentContent, String documentFilename, byte[] manifestContent) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             GZIPOutputStream gzipOutputStream = new GZIPOutputStream(outputStream);
             TarArchiveOutputStream tarOutput = new TarArchiveOutputStream(gzipOutputStream);
             addEntry(tarOutput, manifestFileName, manifestContent);
-            addEntry(tarOutput, documentFilename, documentAsString);
+            addEntry(tarOutput, documentFilename, documentContent);
             tarOutput.close();
             logger.info("Successfully created tar archive");
         } catch (IOException e) {
@@ -41,15 +41,15 @@ public class TarDocumentCompressor implements DocumentCompressorInterface {
             throw new ProcessorException("Error while creating tar archive", e);
         }
 
-        return outputStream;
+        return outputStream.toByteArray();
     }
 
-    private void addEntry(TarArchiveOutputStream tarOutput, String fileName, String fileContent) {
+    private void addEntry(TarArchiveOutputStream tarOutput, String fileName, byte[] fileContent) {
         TarArchiveEntry xmlEntry = new TarArchiveEntry(fileName);
-        xmlEntry.setSize(fileContent.getBytes().length);
+        xmlEntry.setSize(fileContent.length);
         try {
             tarOutput.putArchiveEntry(xmlEntry);
-            tarOutput.write(fileContent.getBytes());
+            tarOutput.write(fileContent);
             tarOutput.closeArchiveEntry();
             logger.info(Markers.append("context", new HashMap.SimpleEntry<>("fileName", fileName)), "Successfully added file to archive");
         } catch (IOException e) {

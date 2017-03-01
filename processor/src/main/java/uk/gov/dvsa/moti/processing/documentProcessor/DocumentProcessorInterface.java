@@ -6,5 +6,5 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public interface DocumentProcessorInterface {
-    ByteArrayOutputStream processFiles(List<File> documentsList);
+    byte[] processFiles(List<File> documentsList);
 }

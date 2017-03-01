@@ -1,4 +1,4 @@
-package uk.gov.dvsa.moti.web.exception;
+package uk.gov.dvsa.moti.web.form;
 
 public class FormElementNotFoundException extends RuntimeException {
 

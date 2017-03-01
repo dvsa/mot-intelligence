@@ -9,15 +9,13 @@ import uk.gov.dvsa.moti.web.model.CsrfToken;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.fraudSender.FraudSender;
 import uk.gov.dvsa.moti.web.resource.SessionResourceInterface;
+import uk.gov.dvsa.moti.web.routing.FraudRoutes;
 import uk.gov.dvsa.moti.web.views.FraudFormView;
 import uk.gov.dvsa.moti.web.views.FraudSuccessView;
 import uk.gov.dvsa.moti.web.views.FraudSummaryView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.UriBuilder;
-
-import java.net.URI;
 import java.util.Optional;
 
 public class FraudService {
@@ -54,7 +52,7 @@ public class FraudService {
     public Optional<FraudSummaryView> displaySummary() {
         if (isDataValid()) {
             FraudModel model = getModel();
-            String backLink = getUri("/fraud").toString();
+            String backLink = FraudRoutes.getFormPath();
             return Optional.of(new FraudSummaryView(model, backLink));
         }
 
@@ -98,9 +96,5 @@ public class FraudService {
         }
 
         return model;
-    }
-
-    private URI getUri(String path) {
-        return UriBuilder.fromUri(path).build();
     }
 }

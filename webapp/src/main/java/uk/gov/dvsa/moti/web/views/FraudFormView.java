@@ -8,7 +8,7 @@ import uk.gov.dvsa.moti.web.form.element.HiddenElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 
 public class FraudFormView extends View {
-    private String backLink = "http://www.gov.uk/";
+    private String backLink = "/";
     private FraudForm form;
     private String csrfToken;
 

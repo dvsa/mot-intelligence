@@ -29,12 +29,18 @@ public class SessionFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
-        SessionCookieStorage sessionCookieStorage = new SessionCookieStorage();
-        try {
-            sessionCookieStorage.getSessionFromCookie((HttpServletRequest) request);
-        } catch (ClassNotFoundException ex) {
-            logger.error(ex.getMessage());
-            throw new FilterException("Not able to encode incoming data", ex);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String uri = httpRequest.getRequestURI();
+
+        if(!uri.startsWith("/assets/")) {
+            SessionCookieStorage sessionCookieStorage = new SessionCookieStorage();
+
+            try {
+                sessionCookieStorage.getSessionFromCookie(httpRequest);
+            } catch (ClassNotFoundException ex) {
+                logger.error(ex.getMessage());
+                throw new FilterException("Not able to encode incoming data", ex);
+            }
         }
 
         FilterResponseWrapper responseWrapper = new FilterResponseWrapper((HttpServletResponse) response);

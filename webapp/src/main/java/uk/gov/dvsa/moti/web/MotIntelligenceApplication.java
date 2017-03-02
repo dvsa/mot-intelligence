@@ -69,7 +69,8 @@ public class MotIntelligenceApplication extends Application<MotIntelligenceConfi
         environment.servlets().setSessionHandler(new SessionHandler());
         environment.servlets().addFilter("SessionFilter", new SessionFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
-        environment.servlets().addFilter("VerifyCsrfTokenFilter", new VerifyCsrfTokenFilter());
+        environment.servlets().addFilter("VerifyCsrfTokenFilter", new VerifyCsrfTokenFilter())
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
         environment.servlets().addFilter("HoneypotFilter", new HoneypotFilter())
                 .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
 

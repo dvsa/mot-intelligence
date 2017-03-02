@@ -29,7 +29,7 @@ public class HoneypotFilter implements Filter {
             ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-        if(httpServletRequest.getMethod().equals(HttpMethod.POST)) {
+        if (httpServletRequest.getMethod().equals(HttpMethod.POST)) {
             checkHoneypot(httpServletRequest);
         }
 
@@ -46,7 +46,7 @@ public class HoneypotFilter implements Filter {
 
     private void checkHoneypot(ServletRequest request) throws ServletException {
         String honeypot = request.getParameter(FIELD_NAME);
-        if(honeypot != null && !honeypot.isEmpty()) {
+        if (honeypot != null && !honeypot.isEmpty()) {
             throw new ServletException("Honeypot in request");
         }
     }

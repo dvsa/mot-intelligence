@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 
 public class FraudModel implements Serializable {
@@ -24,22 +25,27 @@ public class FraudModel implements Serializable {
 
     @Length(max = SHORT_FIELD_MAX_LENGTH, message = MAX_LENGTH_VALIDATION_MSG)
     @FormParam(PARAM_VEHICLE_REG)
+    @DefaultValue("")
     private String vehicleReg;
 
     @Length(max = MAX_LENGTH, message = MAX_LENGTH_VALIDATION_MSG)
     @FormParam(PARAM_LOCATION_NAME)
+    @DefaultValue("")
     private String locationName;
 
     @Length(max = MAX_LENGTH, message = MAX_LENGTH_VALIDATION_MSG)
     @FormParam(PARAM_LOCATION_ADDRESS)
+    @DefaultValue("")
     private String locationAddress;
 
     @Length(max = MAX_LENGTH, message = MAX_LENGTH_VALIDATION_MSG)
     @FormParam(PARAM_PERSON_NAME)
+    @DefaultValue("")
     private String personName;
 
     @Length(max = MAX_LENGTH, message = MAX_LENGTH_VALIDATION_MSG)
     @FormParam(PARAM_PERSON_ADDRESS)
+    @DefaultValue("")
     private String personAddress;
 
     @NotEmpty(message = "enter the details of the incident")

@@ -2,8 +2,8 @@ group 'uk.gov.dvsa.mot'
 version '0.1'
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.13'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+  gradleVersion = '3.3'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip"
 }
 
 apply plugin: 'java'
@@ -112,7 +112,7 @@ task BuildRpm(type: Rpm) {
     packageName 'moti-webapp'
     version = project.version
     release = project.hasProperty('BuildNumber') ? BuildNumber : 'dev'
-    packageDescription = project.hasProperty('Description') ? Description: 'none'
+    packageDescription = project.hasProperty('DescriptionRPM') ? DescriptionRPM: 'none'
     user 'moti-webapp'
     permissionGroup 'moti-webapp'
     license 'Proprietary'

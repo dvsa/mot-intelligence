@@ -41,11 +41,16 @@ public class DocumentStorage {
         return fileList;
     }
 
-    public void uploadFile(ByteArrayOutputStream outputStream) {
+    public void uploadFile(byte[] fileContent) {
         String destinationFilePath = storageConfiguration.getDestinationFilePath();
+        destinationFilePath = formatDestinationFilePath(destinationFilePath);
         logger.info(Markers.append("context", new HashMap.SimpleEntry<>("filename", destinationFilePath)), "Uploading file");
-        uploader.store(destinationFilePath, outputStream.toByteArray());
+        uploader.store(destinationFilePath, fileContent);
         logger.info(Markers.append("context", new HashMap.SimpleEntry<>("filename", destinationFilePath)), "File uploaded successfully");
+    }
+
+    private String formatDestinationFilePath(String destinationFilePath) {
+        return (new FilePathFormatter()).format(destinationFilePath);
     }
 
     public void deleteFiles(List<File> files) {

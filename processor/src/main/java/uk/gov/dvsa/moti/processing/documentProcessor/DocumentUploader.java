@@ -17,8 +17,8 @@ public class DocumentUploader extends AbstractDocumentProcessor implements Docum
 
     }
 
-    public void uploadDocument(ByteArrayOutputStream document) {
-        documentUploadStep.setDocumentToUpload(document);
+    public void uploadDocument(byte[] documentContent) {
+        documentUploadStep.setDocumentToUpload(documentContent);
         runStep(documentUploadStep);
     }
 }

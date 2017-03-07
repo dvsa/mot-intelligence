@@ -10,6 +10,7 @@ import uk.gov.dvsa.moti.processing.configuration.model.StorageConfiguration;
 import uk.gov.dvsa.moti.processing.configuration.model.TarFileConfiguration;
 import uk.gov.dvsa.moti.processing.executor.DocumentCompressorInterface;
 import uk.gov.dvsa.moti.processing.executor.DocumentStorage;
+import uk.gov.dvsa.moti.processing.executor.ExecutorSettings;
 import uk.gov.dvsa.moti.processing.executor.TarDocumentCompressor;
 import uk.gov.dvsa.moti.processing.documentProcessor.DocumentDeleter;
 import uk.gov.dvsa.moti.processing.documentProcessor.DocumentDeleterInterface;
@@ -44,6 +45,11 @@ public class ExecutorModule extends AbstractModule {
                 .toInstance(configuration.getTarFileConfiguration());
         bind(DocumentStorage.class).toProvider(DocumentStorageFactory.class);
         bind(DocumentCompressorInterface.class).to(TarDocumentCompressor.class);
+        bind(ExecutorSettings.class).toInstance(
+                new ExecutorSettings().setUseCompression(
+                        configuration.getProcessorSettingsConfiguration().getUseCompression()
+                )
+        );
 
         bind(DocumentDownloaderInterface.class).to(DocumentDownloader.class);
         bind(DocumentProcessorInterface.class).to(DocumentProcessor.class);

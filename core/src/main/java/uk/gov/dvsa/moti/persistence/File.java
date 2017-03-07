@@ -43,11 +43,9 @@ public class File {
                 result.write(buffer, 0, length);
             }
 
-            return result.toString("UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            throw new FileStorageException("Not able to encode incoming document with UTF-8.", ex);
+            return result.toString();
         } catch (IOException ex) {
-            throw new FileStorageException("Not able to encode incoming document with UTF-8.", ex);
+            throw new FileStorageException("Not able to encode incoming document.", ex);
         }
     }
 

@@ -108,10 +108,8 @@ public class S3Storage implements FileStorage {
             }
 
             return new File(path, result.toByteArray());
-        } catch (UnsupportedEncodingException ex) {
-            throw new FileStorageException("Not able to encode incoming document with UTF-8.", ex);
         } catch (IOException ex) {
-            throw new FileStorageException("Not able to encode incoming document with UTF-8.", ex);
+            throw new FileStorageException("Not able to encode incoming document.", ex);
         }
     }
 

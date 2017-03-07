@@ -7,10 +7,10 @@ import uk.gov.dvsa.moti.processing.executor.DocumentCompressorInterface;
 import java.io.ByteArrayOutputStream;
 
 public class DocumentCompressionStep implements StepInterface {
-    private String documentContent;
+    private byte[] documentContent;
     private String documentFilename;
-    private String manifestContent;
-    ByteArrayOutputStream compressedDocument;
+    private byte[] manifestContent;
+    byte[] compressedDocument;
 
     private DocumentCompressorInterface documentCompressor;
 
@@ -29,11 +29,11 @@ public class DocumentCompressionStep implements StepInterface {
         return "Document compression";
     }
 
-    public ByteArrayOutputStream getCompressedDocument() {
+    public byte[] getCompressedDocument() {
         return compressedDocument;
     }
 
-    public DocumentCompressionStep setDocumentContent(String documentContent) {
+    public DocumentCompressionStep setDocumentContent(byte[] documentContent) {
         this.documentContent = documentContent;
         return this;
     }
@@ -43,7 +43,7 @@ public class DocumentCompressionStep implements StepInterface {
         return this;
     }
 
-    public DocumentCompressionStep setManifestContent(String manifestContent) {
+    public DocumentCompressionStep setManifestContent(byte[] manifestContent) {
         this.manifestContent = manifestContent;
         return this;
     }

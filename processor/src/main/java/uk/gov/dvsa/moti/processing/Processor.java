@@ -44,7 +44,7 @@ public class Processor {
                 return;
             }
 
-            ByteArrayOutputStream outputDocument = documentProcessor.processFiles(downloadedDocs);
+            byte[] outputDocument = documentProcessor.processFiles(downloadedDocs);
             documentUploader.uploadDocument(outputDocument);
             documentDeleter.deleteDocuments(downloadedDocs);
         } catch (Exception e) {

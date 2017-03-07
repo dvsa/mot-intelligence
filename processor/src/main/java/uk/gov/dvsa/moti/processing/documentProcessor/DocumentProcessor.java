@@ -3,13 +3,13 @@ package uk.gov.dvsa.moti.processing.documentProcessor;
 import com.google.inject.Inject;
 
 import uk.gov.dvsa.moti.persistence.File;
+import uk.gov.dvsa.moti.processing.executor.ExecutorSettings;
 import uk.gov.dvsa.moti.processing.step.DocumentCompressionStep;
 import uk.gov.dvsa.moti.processing.step.DocumentFilenameStep;
 import uk.gov.dvsa.moti.processing.step.DocumentJoinStep;
 import uk.gov.dvsa.moti.processing.step.ManifestCreatorStep;
 import uk.gov.dvsa.moti.processing.step.StepRunner;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class DocumentProcessor extends AbstractDocumentProcessor implements DocumentProcessorInterface {
@@ -17,6 +17,7 @@ public class DocumentProcessor extends AbstractDocumentProcessor implements Docu
     private final DocumentFilenameStep documentFilenameStep;
     private final ManifestCreatorStep manifestCreatorStep;
     private final DocumentCompressionStep documentCompressionStep;
+    private final ExecutorSettings settings;
 
     @Inject
     public DocumentProcessor(
@@ -24,24 +25,31 @@ public class DocumentProcessor extends AbstractDocumentProcessor implements Docu
             DocumentFilenameStep documentFilenameStep,
             ManifestCreatorStep manifestCreatorStep,
             DocumentCompressionStep documentCompressionStep,
-            StepRunner stepRunner
+            StepRunner stepRunner,
+            ExecutorSettings settings
     ) {
         super(stepRunner);
         this.documentJoinStep = documentJoinStep;
         this.documentFilenameStep = documentFilenameStep;
         this.manifestCreatorStep = manifestCreatorStep;
         this.documentCompressionStep = documentCompressionStep;
+        this.settings = settings;
     }
 
-    public ByteArrayOutputStream processFiles(List<File> documentsList) {
+    public byte[] processFiles(List<File> documentsList) {
         String bigDocument = joinFiles(documentsList);
-        String bigDocumentFilename = getDocumentFilename();
-        String manifestContent = createManifestFromDocument(bigDocument, bigDocumentFilename);
 
-        return compressDocument(bigDocument, bigDocumentFilename, manifestContent);
+        if (settings.useCompression()) {
+            String bigDocumentFilename = getDocumentFilename();
+            String manifestContent = createManifestFromDocument(bigDocument, bigDocumentFilename);
+
+            return compressDocument(bigDocument.getBytes(), bigDocumentFilename, manifestContent.getBytes());
+        } else {
+            return bigDocument.getBytes();
+        }
     }
 
-    private ByteArrayOutputStream compressDocument(String bigDocument, String bigDocumentFilename, String manifestContent) {
+    private byte[] compressDocument(byte[] bigDocument, String bigDocumentFilename, byte[] manifestContent) {
         documentCompressionStep.setDocumentContent(bigDocument);
         documentCompressionStep.setDocumentFilename(bigDocumentFilename);
         documentCompressionStep.setManifestContent(manifestContent);

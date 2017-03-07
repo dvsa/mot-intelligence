@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProcessorTest extends IntegrationTestBase {
+public class ProcessorIntegrationTest extends IntegrationTestBase {
 
     public static final String firstFileComment = "a 1 comment";
     public static final String secondFileComment = "a 2 comment";
@@ -67,10 +67,14 @@ public class ProcessorTest extends IntegrationTestBase {
 
     @Test
     public void testHappyPath() throws IOException {
+        String destinationFilePath = "documents.tar.gz";
+
+        configuration.getStorageConfiguration().setDestinationFilePath(destinationFilePath);
         Injector injector = Guice.createInjector(new ExecutorModule(configuration));
         Processor processor = injector.getInstance(Processor.class);
         processor.execute();
-        File tgz = destinationStorage.get(configuration.getStorageConfiguration().getDestinationFilePath());
+
+        File tgz = destinationStorage.get(destinationFilePath);
         checkIfFileIsCorrect(tgz);
     }
 

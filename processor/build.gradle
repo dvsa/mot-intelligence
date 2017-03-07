@@ -6,8 +6,8 @@ apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+    gradleVersion = '3.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip"
 }
 
 mainClassName = 'uk.gov.dvsa.moti.processing.ProcessorApplication'
@@ -111,7 +111,7 @@ task BuildRpm(type: Rpm) {
     packageName 'moti-webapp-processor'
     version = project.version
     release = project.hasProperty('BuildNumber') ? BuildNumber : 'dev'
-    packageDescription = project.hasProperty('Description') ? Description: 'none'
+    packageDescription = project.hasProperty('DescriptionRPM') ? DescriptionRPM: 'none'
     user 'moti-webapp'
     permissionGroup 'moti-webapp'
     license 'Proprietary'

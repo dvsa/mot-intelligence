@@ -1,0 +1,35 @@
+logging:
+  appenders:
+    -
+      archive: true
+      archivedFileCount: 14
+      archivedLogFilenamePattern: /var/log/dvsa/moti-webapp/moti-webapp.log-%d
+      currentLogFilename: /var/log/dvsa/moti-webapp/moti-webapp.log
+      logFormat: ^^* %d %-6level [%t] %c %msg %n
+      threshold: ALL
+      timeZone: UTC
+      type: file
+  level: DEBUG
+server:
+  requestLog:
+    appenders:
+      -
+        archive: true
+        archivedFileCount: 14
+        archivedLogFilenamePattern: /var/log/dvsa/moti-webapp/access.log-%d
+        currentLogFilename: /var/log/dvsa/moti-webapp/access.log
+        threshold: ALL
+        timeZone: UTC
+        type: file
+  applicationConnectors:
+      - type: http
+        port: 8080
+  adminConnectors:
+      - type: http
+        port: 8081
+s3:
+  accessKey:
+  secretKey:
+  bucket: mot-intelligence-fb
+  rootFolder: root/
+

@@ -1,0 +1,20 @@
+s3:
+    sourceBucket:
+        accessKey:
+        secretKey:
+        bucket: mot-intelligence-fb
+        rootFolder: root/
+    destinationBucket:
+        accessKey:
+        secretKey:
+        bucket: mot-intelligence-fb
+        rootFolder: root/
+storage:
+    maxDownloadedFilesLimit: 1000
+    downloadedFilesPrefix:
+    destinationFilePath: fraud-reports-[TIMESTAMP].xml
+tarFile:
+    manifestFileName: documents-manifest.txt
+settings:
+    useCompression: true
+

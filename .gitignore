@@ -1,3 +1,14 @@
 .gradle
 /.idea/
 /build/
+core/build/*
+processor/build/*
+webapp/build/*
+/moti-selenium/build/
+/core/core.iml
+/processor/processor.iml
+/webapp/webapp.iml
+/moti-selenium/moti-selenium.iml
+/processor/config.yml
+/webapp/config.yml
+/moti-selenium/selenium-screenshots/*

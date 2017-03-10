@@ -1,0 +1,32 @@
+group 'uk.gov.dvsa.mot'
+version '0.1'
+
+sourceCompatibility = 1.8
+
+project.ext {
+    dropwizardVersion = '1.0.5'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    test {
+        java.srcDir 'src/test/unit/java'
+        resources.srcDir 'src/test/unit/resources'
+    }
+}
+
+dependencies {
+    testCompile (
+        'io.dropwizard:dropwizard-testing:' + dropwizardVersion,
+        'com.tngtech.java:junit-dataprovider:1.10.0'
+    )
+    compile(
+            'io.dropwizard:dropwizard-core:' + dropwizardVersion,
+            'com.amazonaws:aws-java-sdk-s3:1.11.90',
+            group: 'log4j', name: 'log4j', version: '1.2.17',
+            'org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0',
+    )
+}

@@ -1,0 +1,55 @@
+{{#partial "title" }}
+    Report MOT fraud
+{{/partial}}
+
+{{#partial "lede" }}
+    Give as much information as possible to help DVSA investigate.
+{{/partial}}
+
+{{#partial "content" }}
+
+    <form action="" method="post" autocomplete="off" novalidate>
+        {{{display_form_element csrfTokenElement}}}
+        {{{honey_pot}}}
+
+        <h2 class="heading-large">About the vehicle</h2>
+        <fieldset>
+            <legend class="visuallyhidden">About the vehicle</legend>
+            {{{display_form_element vehicleReg}}}
+        </fieldset>
+
+        <h2 class="heading-large" id="">About the location</h2>
+        <fieldset>
+            <legend class="visuallyhidden" id="">About the location</legend>
+            {{{display_form_element locationName}}}
+
+            {{{display_form_element locationAddress}}}
+        </fieldset>
+
+        <h2 class="heading-large" id="">About the person committing fraud</h2>
+        <fieldset>
+            <legend class="visuallyhidden" id="">About the person committing fraud</legend>
+            {{{display_form_element personName}}}
+
+            {{{display_form_element personAddress}}}
+        </fieldset>
+
+        <h2 class="heading-large" id="">About the incident</h2>
+        <fieldset>
+            <legend class="visuallyhidden" id="">About the incident</legend>
+            {{{display_form_element comments}}}
+        </fieldset>
+
+        <nav class="content-navigation">
+            <input type="submit" value="Continue" id="continue" class="button">
+            <ul class="content-navigation__secondary">
+                <li>
+                    <a href="{{backLink}}">Back</a>
+                </li>
+            </ul>
+        </nav>
+
+    </form>
+
+{{/partial}}
+{{> uk/gov/dvsa/moti/web/views/master }}

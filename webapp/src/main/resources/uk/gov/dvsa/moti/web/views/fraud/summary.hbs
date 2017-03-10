@@ -1,0 +1,31 @@
+{{#partial "title" }}
+    Review and send your report
+{{/partial}}
+
+{{#partial "lede" }}
+    Before you send your report, check the information you’ve given.
+{{/partial}}
+
+{{#partial "content" }}
+
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=vehicleTable}}
+
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=locationTable}}
+
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=personTable}}
+
+    {{> uk/gov/dvsa/moti/web/views/partials/summary_table table=descriptionTable}}
+
+    <form action="" method="POST">
+        {{{display_form_element csrfTokenElement}}}
+        <nav class="content-navigation">
+            <input type="submit" value="Send report" id="continue" class="button">
+            <ul class="content-navigation__secondary">
+                <li>
+                    <a href="{{backLink}}" id="back">Back</a>
+                </li>
+            </ul>
+        </nav>
+    </form>
+{{/partial}}
+{{> uk/gov/dvsa/moti/web/views/master }}

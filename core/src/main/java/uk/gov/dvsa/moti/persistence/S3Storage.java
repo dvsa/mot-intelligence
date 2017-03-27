@@ -1,7 +1,6 @@
 package uk.gov.dvsa.moti.persistence;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AnonymousAWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
@@ -9,12 +8,12 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class S3Storage implements FileStorage {
 
         AWSCredentials clientCredentials = accesspath != null && !accesspath.equals("")
                 ? new BasicAWSCredentials(accesspath, secretpath)
-                : new AnonymousAWSCredentials();
+                : new InstanceProfileCredentialsProvider().getCredentials();
 
         client = new AmazonS3Client(clientCredentials);
     }

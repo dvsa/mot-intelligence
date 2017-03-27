@@ -8,7 +8,7 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +34,7 @@ public class S3Storage implements FileStorage {
 
         AWSCredentials clientCredentials = accesspath != null && !accesspath.equals("")
                 ? new BasicAWSCredentials(accesspath, secretpath)
-                : new InstanceProfileCredentialsProvider().getCredentials();
+                : new DefaultAWSCredentialsProviderChain().getCredentials();
 
         client = new AmazonS3Client(clientCredentials);
     }

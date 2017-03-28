@@ -7,6 +7,10 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+/**
+ * ElementType element
+ * https://www.w3.org/TR/1998/NOTE-XML-data-0105/
+ */
 public class ElementType {
     private String name;
 

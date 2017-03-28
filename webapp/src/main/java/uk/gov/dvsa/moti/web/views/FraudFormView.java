@@ -1,12 +1,16 @@
 package uk.gov.dvsa.moti.web.views;
 
 import io.dropwizard.views.View;
+
 import uk.gov.dvsa.moti.web.form.FraudForm;
 import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
 import uk.gov.dvsa.moti.web.form.element.FormElementOptions;
 import uk.gov.dvsa.moti.web.form.element.HiddenElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 
+/**
+ * Report fraud form view
+ */
 public class FraudFormView extends View {
     private String backLink = "/";
     private FraudForm form;

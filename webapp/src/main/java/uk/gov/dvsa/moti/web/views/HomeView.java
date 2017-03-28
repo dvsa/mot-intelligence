@@ -2,6 +2,9 @@ package uk.gov.dvsa.moti.web.views;
 
 import io.dropwizard.views.View;
 
+/**
+ * Homepage
+ */
 public class HomeView extends View {
 
     private String formLink;

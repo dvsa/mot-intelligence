@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.processing.executor;
 
+/**
+ * Executor settings
+ */
 public class ExecutorSettings {
     private boolean useCompression = false;
 

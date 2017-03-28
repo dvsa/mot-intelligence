@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.configuration;
 
+/**
+ * Exception thrown in ConfigFileReader
+ */
 public class ConfigurationException extends RuntimeException {
     public ConfigurationException() {
         super();

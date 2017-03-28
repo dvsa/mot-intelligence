@@ -19,11 +19,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Stores session in cookie
+ */
 public class SessionCookieStorage {
 
     private static String COOKIE_NAME = "session";
 
-    public void getSessionFromCookie(HttpServletRequest httpServletRequest) throws IOException, ClassNotFoundException {
+    /**
+     * Get session from cookie
+     * @param httpServletRequest
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public void loadSessionFromCookie(HttpServletRequest httpServletRequest) throws IOException, ClassNotFoundException {
         Cookie sessionCookie = Cookies.getCookie(httpServletRequest, COOKIE_NAME);
 
         if (null != sessionCookie) {
@@ -34,6 +43,13 @@ public class SessionCookieStorage {
             cookieSession.getAttributes().forEach(session::setAttribute);
         }
     }
+
+    /**
+     * Store session in cookie
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @throws IOException
+     */
     public void storeSessionInCookie(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
 
         HttpSession session = httpServletRequest.getSession(true);
@@ -50,6 +66,12 @@ public class SessionCookieStorage {
         }
     }
 
+    /**
+     * Serialize session
+     * @param object
+     * @return
+     * @throws IOException
+     */
     private String toString(Serializable object) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -58,6 +80,13 @@ public class SessionCookieStorage {
         return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
     }
 
+    /**
+     * Deserialize session
+     * @param string
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private Object fromString(String string) throws IOException, ClassNotFoundException {
         byte[] data = Base64.getDecoder().decode(string);
         ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data));

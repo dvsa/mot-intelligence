@@ -2,6 +2,9 @@ package uk.gov.dvsa.moti.persistence;
 
 import java.util.List;
 
+/**
+ * FileStorage interface
+ */
 public interface FileStorage {
     List<File> getMultiple(String keyPrefix, int limit);
     File get(String keyPrefix);

@@ -2,7 +2,9 @@ package uk.gov.dvsa.moti.processing.configuration.model;
 
 import uk.gov.dvsa.moti.common.configuration.model.S3BucketConfiguration;
 
-
+/**
+ * S3 access configuration
+ */
 public class S3Configuration {
     private S3BucketConfiguration sourceBucket;
 

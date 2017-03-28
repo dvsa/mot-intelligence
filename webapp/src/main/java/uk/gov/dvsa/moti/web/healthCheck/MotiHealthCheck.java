@@ -6,6 +6,9 @@ import com.codahale.metrics.health.HealthCheck;
 import uk.gov.dvsa.moti.common.configuration.model.S3BucketConfiguration;
 import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
 
+/**
+ * Healthcheck checking S3 connection
+ */
 public class MotiHealthCheck extends HealthCheck implements Gauge {
     private final S3StorageHealthChecker s3Storage;
     private float pingTime;

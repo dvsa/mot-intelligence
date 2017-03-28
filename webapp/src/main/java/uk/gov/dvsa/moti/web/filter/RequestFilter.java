@@ -12,6 +12,9 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Stores session in cookie
+ */
 @Provider
 public class RequestFilter implements ContainerResponseFilter {
     @Context

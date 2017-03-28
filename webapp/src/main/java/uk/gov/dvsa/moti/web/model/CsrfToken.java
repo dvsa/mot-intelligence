@@ -4,6 +4,9 @@ import org.glassfish.jersey.process.internal.RequestScoped;
 
 import javax.ws.rs.Path;
 
+/**
+ * Model for keeping CSRF Token value
+ */
 @RequestScoped
 @Path("/*")
 public class CsrfToken {

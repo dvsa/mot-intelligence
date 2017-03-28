@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.processing.configuration;
 
+/**
+ * Exception thrown in ConfigLoader
+ */
 public class ProcessorConfigurationException extends RuntimeException {
     public ProcessorConfigurationException() {
         super();

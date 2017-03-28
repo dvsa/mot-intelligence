@@ -7,6 +7,9 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
+/**
+ * Exception mapper being used at Jersey level to handle exceptions in application.
+ */
 public class MotiExceptionMapper implements ExceptionMapper<Exception> {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(ExceptionMapper.class);
 

@@ -7,6 +7,9 @@ import uk.gov.dvsa.moti.processing.executor.DocumentJoiner;
 
 import java.util.List;
 
+/**
+ * Join documents
+ */
 public class DocumentJoinStep implements StepInterface {
     private DocumentJoiner documentJoiner;
     private List<File> files;

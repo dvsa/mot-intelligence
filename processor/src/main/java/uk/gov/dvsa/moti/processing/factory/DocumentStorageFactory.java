@@ -8,6 +8,9 @@ import uk.gov.dvsa.moti.processing.configuration.model.ConfigurationName;
 import uk.gov.dvsa.moti.processing.configuration.model.StorageConfiguration;
 import uk.gov.dvsa.moti.processing.executor.DocumentStorage;
 
+/**
+ * Create DocumentStorage
+ */
 public class DocumentStorageFactory implements Provider<DocumentStorage> {
     private StorageConfiguration storageConfiguration;
     private S3StorageFactory s3StorageFactory;

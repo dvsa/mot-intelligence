@@ -6,6 +6,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Session resource
+ */
 @Singleton
 public class SessionResource implements SessionResourceInterface {
 

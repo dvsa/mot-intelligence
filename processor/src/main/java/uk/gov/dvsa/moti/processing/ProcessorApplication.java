@@ -12,6 +12,9 @@ import uk.gov.dvsa.moti.processing.configuration.model.ProcessorConfiguration;
 import uk.gov.dvsa.moti.processing.executor.ProcessorException;
 import uk.gov.dvsa.moti.processing.factory.ExecutorModule;
 
+/**
+ * Processor application
+ */
 public class ProcessorApplication {
     private static Logger logger = LoggerFactory.getLogger(ProcessorApplication.class);
 

@@ -6,6 +6,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * Handling LocalDate in JAXB
+ */
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     private final static DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");

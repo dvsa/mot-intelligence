@@ -7,6 +7,9 @@ import uk.gov.dvsa.moti.processing.executor.DocumentStorage;
 
 import java.util.List;
 
+/**
+ * Delete documents
+ */
 public class DocumentDeleteStep implements StepInterface {
     private DocumentStorage documentStorage;
     private List<File> documentsToDelete;

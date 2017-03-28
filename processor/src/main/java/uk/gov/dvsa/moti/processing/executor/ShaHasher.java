@@ -9,9 +9,17 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
+/**
+ * Helper class creating sha256 hash
+ */
 public class ShaHasher {
     private static Logger logger = LoggerFactory.getLogger(ShaHasher.class);
 
+    /**
+     * Perform sha256 hashing
+     * @param stringToBeHashed
+     * @return
+     */
     public String sha256(String stringToBeHashed) {
         String hash = "";
         try {

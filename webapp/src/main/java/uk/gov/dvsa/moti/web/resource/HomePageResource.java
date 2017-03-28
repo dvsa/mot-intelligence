@@ -14,6 +14,10 @@ import javax.ws.rs.core.UriBuilder;
 @Produces(MediaType.TEXT_HTML)
 public class HomePageResource {
 
+    /**
+     * Display homepage
+     * @return
+     */
     @GET
     public Response display() {
         return Response.ok(new HomeView(FraudRoutes.getFormPath())).build();

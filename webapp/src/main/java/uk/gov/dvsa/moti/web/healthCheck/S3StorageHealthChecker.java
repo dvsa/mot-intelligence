@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import uk.gov.dvsa.moti.persistence.S3Storage;
 
+/**
+ * Checking S3 connection
+ */
 public class S3StorageHealthChecker extends S3Storage {
 
     private static Logger logger = LoggerFactory.getLogger(S3StorageHealthChecker.class);
@@ -15,6 +18,10 @@ public class S3StorageHealthChecker extends S3Storage {
         super(bucket, prefix);
     }
 
+    /**
+     * ping S3 bucket
+     * @return
+     */
     public boolean ping(){
         try {
             return client.doesBucketExist(bucket);

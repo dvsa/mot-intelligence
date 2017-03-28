@@ -10,9 +10,17 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+/**
+ * Serialize single fraud report in order to keep it in S3
+ */
 public class FraudSerializer {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(FraudSerializer.class);
 
+    /**
+     * Serialize Fraud to XML
+     * @param fraud
+     * @return
+     */
     public String serialize(Fraud fraud) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Fraud.class);
@@ -29,6 +37,11 @@ public class FraudSerializer {
         }
     }
 
+    /**
+     * Unserialize Fraud from XML
+     * @param xml
+     * @return
+     */
     public Fraud unserialize(String xml) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Fraud.class);

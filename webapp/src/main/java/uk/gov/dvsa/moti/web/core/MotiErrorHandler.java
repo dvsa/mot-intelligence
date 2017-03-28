@@ -17,14 +17,32 @@ import java.util.EnumSet;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Error handler on servlet level.
+ * It handles errors on paths not being handled by Jersey, e.g. AssetBundle
+ */
 public class MotiErrorHandler extends ErrorHandler {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(MotiErrorHandler.class);
 
+    /**
+     * Writer error response
+     * @param request
+     * @param writer
+     * @param code
+     * @param message
+     * @param showStacks
+     * @throws IOException
+     */
     protected void writeErrorPage(HttpServletRequest request, Writer writer, int code, String message, boolean showStacks)
             throws IOException {
         writer.write(renderErrorView(code));
     }
 
+    /**
+     * Render error page
+     * @param code
+     * @return rendered page
+     */
     private String renderErrorView(int code) {
         TemplateLoader loader = new ClassPathTemplateLoader();
 

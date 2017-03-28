@@ -16,6 +16,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Validates CSRF token
+ */
 public class VerifyCsrfTokenFilter implements Filter {
 
     @Override

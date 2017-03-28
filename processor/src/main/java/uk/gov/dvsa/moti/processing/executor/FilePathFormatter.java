@@ -3,6 +3,9 @@ package uk.gov.dvsa.moti.processing.executor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Formats file path
+ */
 class FilePathFormatter {
 
     public String format(String filePath) {

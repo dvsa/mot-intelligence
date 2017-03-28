@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * File storage in Amazon S3
+ */
 public class S3Storage implements FileStorage {
 
     /**
@@ -38,11 +41,21 @@ public class S3Storage implements FileStorage {
         store(file.getPath(), file.getContent());
     }
 
+    /**
+     * Save file content on given path
+     * @param path
+     * @param fileContent
+     */
     public void store(String path, String fileContent) {
 
         store(path, fileContent.getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * Save
+     * @param path
+     * @param fileContent
+     */
     public void store(String path, byte[] fileContent) {
         InputStream stream = new ByteArrayInputStream(fileContent);
 
@@ -54,10 +67,18 @@ public class S3Storage implements FileStorage {
         client.putObject(bucket, path, stream, emptyMetadata);
     }
 
+    /**
+     * Delete single file
+     * @param path file path
+     */
     public void delete(String path) {
         client.deleteObject(bucket, withRootPrefix(path));
     }
 
+    /**
+     * Delete many files
+     * @param paths list of file paths
+     */
     public void delete(List<String> paths) {
         List<DeleteObjectsRequest.KeyVersion> pathsVersions = new ArrayList<>(paths.size());
 
@@ -88,6 +109,11 @@ public class S3Storage implements FileStorage {
         return files;
     }
 
+    /**
+     * Read file from given path
+     * @param path
+     * @return
+     */
     public File get(String path) {
         S3Object object = client.getObject(bucket, withRootPrefix(path));
 
@@ -106,6 +132,11 @@ public class S3Storage implements FileStorage {
         }
     }
 
+    /**
+     * List files in given prefix (directory)
+     * @param pathPrefix
+     * @return list of file paths
+     */
     private List<String> list(String pathPrefix) {
         ObjectListing listing = client.listObjects(bucket, withRootPrefix(pathPrefix));
         List<S3ObjectSummary> summaries = listing.getObjectSummaries();

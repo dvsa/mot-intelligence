@@ -11,11 +11,20 @@ public class Logger {
 
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(Logger.class);
 
+    /**
+     * Log error
+     * @param e
+     * @param errorId
+     */
     public void error(Exception e, String errorId) {
         logger.error(LogFormatter.format(LogFormatter.Type.ERROR, errorId, e.toString() + getStackTrace(e)));
     }
 
-
+    /**
+     * Get stack trace for exception
+     * @param e
+     * @return
+     */
     private String getStackTrace(Exception e){
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

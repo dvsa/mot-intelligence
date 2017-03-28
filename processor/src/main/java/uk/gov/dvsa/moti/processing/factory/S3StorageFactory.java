@@ -9,6 +9,9 @@ import uk.gov.dvsa.moti.persistence.S3Storage;
 import uk.gov.dvsa.moti.processing.configuration.model.ConfigurationName;
 import uk.gov.dvsa.moti.processing.configuration.model.S3Configuration;
 
+/**
+ * Creates S3 storage using provided configuration
+ */
 public class S3StorageFactory {
     private S3Configuration s3Configuration;
 

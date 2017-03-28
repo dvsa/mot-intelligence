@@ -18,6 +18,9 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Serialize many frauds to be sent to Intelligence Department
+ */
 public class BatchFraudSerializer {
     private static final String TYPE_STRING = "string";
     private static final String DB_TYPE_STRING = "str";

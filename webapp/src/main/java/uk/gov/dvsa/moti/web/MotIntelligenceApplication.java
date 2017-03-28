@@ -37,6 +37,9 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpSession;
 
+/**
+ * MOTI web frontend
+ */
 public class MotIntelligenceApplication extends Application<MotIntelligenceConfiguration> {
     public static void main(String[] args) throws Exception {
         new MotIntelligenceApplication().run(args);

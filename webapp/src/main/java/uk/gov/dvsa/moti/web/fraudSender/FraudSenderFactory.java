@@ -10,6 +10,9 @@ import uk.gov.dvsa.moti.web.configuration.model.MotIntelligenceConfiguration;
 
 import javax.inject.Inject;
 
+/**
+ * Build FraudSender
+ */
 public class FraudSenderFactory implements Factory<FraudSender> {
 
     private final FraudSender fraudSender;

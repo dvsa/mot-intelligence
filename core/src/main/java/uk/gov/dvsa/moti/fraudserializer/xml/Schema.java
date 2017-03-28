@@ -6,6 +6,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Schema section
+ * https://docs.microsoft.com/en-us/sql/ado/guide/data/schema-section
+ */
 public class Schema {
 
     private String id;

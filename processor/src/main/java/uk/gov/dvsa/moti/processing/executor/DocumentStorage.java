@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Download documents from source storage and store them in destination storage
+ */
 public class DocumentStorage {
     private FileStorage downloader;
     private FileStorage uploader;
@@ -29,6 +32,10 @@ public class DocumentStorage {
         this.storageConfiguration = storageConfiguration;
     }
 
+    /**
+     * Download files from storage
+     * @return
+     */
     public List<File> downloadFiles() {
         logger.info("Starting file download...");
         String prefix = null != storageConfiguration.getDownloadedFilesPrefix() ? storageConfiguration.getDownloadedFilesPrefix() : "";
@@ -41,6 +48,10 @@ public class DocumentStorage {
         return fileList;
     }
 
+    /**
+     * Upload files to storage
+     * @param fileContent
+     */
     public void uploadFile(byte[] fileContent) {
         String destinationFilePath = storageConfiguration.getDestinationFilePath();
         destinationFilePath = formatDestinationFilePath(destinationFilePath);
@@ -49,10 +60,19 @@ public class DocumentStorage {
         logger.info(Markers.append("context", new HashMap.SimpleEntry<>("filename", destinationFilePath)), "File uploaded successfully");
     }
 
+    /**
+     * Format file path
+     * @param destinationFilePath
+     * @return
+     */
     private String formatDestinationFilePath(String destinationFilePath) {
         return (new FilePathFormatter()).format(destinationFilePath);
     }
 
+    /**
+     * Delete many files from storage
+     * @param files
+     */
     public void deleteFiles(List<File> files) {
         ArrayList<String> filenames = new ArrayList<>();
         for (File file : files) {

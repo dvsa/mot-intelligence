@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.web.views.model;
 
+/**
+ * Single row in SummaryTable
+ */
 public class SummaryRow {
     private String key;
     private String value;

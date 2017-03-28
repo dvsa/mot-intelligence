@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.fraudserializer;
 
+/**
+ * Helper class for error messages re-use
+ */
 public enum SerializerError {
     UNSERIALIZE("Unable to unserialize"),
 

@@ -5,6 +5,9 @@ import uk.gov.dvsa.moti.fraudserializer.xml.Root;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+/**
+ * AttributeType element
+ */
 public class AttributeType {
     private String name;
 

@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * File
+ */
 public class File {
     private String path;
 
@@ -31,6 +34,10 @@ public class File {
         this.content = content.getBytes(StandardCharsets.UTF_8);
     }
 
+    /**
+     * Read file contents as string
+     * @return
+     */
     public String getContentAsString() {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
 

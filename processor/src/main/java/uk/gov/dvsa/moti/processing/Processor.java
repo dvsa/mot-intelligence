@@ -16,6 +16,9 @@ import uk.gov.dvsa.moti.processing.executor.ProcessorException;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+/**
+ * Main processor
+ */
 public class Processor {
     private final DocumentDownloaderInterface documentDownloader;
     private final DocumentProcessorInterface documentProcessor;
@@ -36,6 +39,9 @@ public class Processor {
         this.documentDeleter = documentDeleter;
     }
 
+    /**
+     * Start processing
+     */
     public void execute() {
         try {
             List<File> downloadedDocs = documentDownloader.downloadFiles();

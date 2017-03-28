@@ -6,6 +6,9 @@ import uk.gov.dvsa.moti.processing.executor.DocumentStorage;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * Uploads documents
+ */
 public class DocumentUploadStep implements StepInterface {
     private DocumentStorage documentStorage;
     private byte[] documentToUpload;

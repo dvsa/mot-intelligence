@@ -12,6 +12,9 @@ import uk.gov.dvsa.moti.processing.step.StepRunner;
 
 import java.util.List;
 
+/**
+ * Process documents
+ */
 public class DocumentProcessor extends AbstractDocumentProcessor implements DocumentProcessorInterface {
     private final DocumentJoinStep documentJoinStep;
     private final DocumentFilenameStep documentFilenameStep;
@@ -36,6 +39,11 @@ public class DocumentProcessor extends AbstractDocumentProcessor implements Docu
         this.settings = settings;
     }
 
+    /**
+     * Process many files
+     * @param documentsList
+     * @return
+     */
     public byte[] processFiles(List<File> documentsList) {
         String bigDocument = joinFiles(documentsList);
 
@@ -49,6 +57,13 @@ public class DocumentProcessor extends AbstractDocumentProcessor implements Docu
         }
     }
 
+    /**
+     * Compress single document
+     * @param bigDocument
+     * @param bigDocumentFilename
+     * @param manifestContent
+     * @return
+     */
     private byte[] compressDocument(byte[] bigDocument, String bigDocumentFilename, byte[] manifestContent) {
         documentCompressionStep.setDocumentContent(bigDocument);
         documentCompressionStep.setDocumentFilename(bigDocumentFilename);
@@ -58,6 +73,12 @@ public class DocumentProcessor extends AbstractDocumentProcessor implements Docu
         return documentCompressionStep.getCompressedDocument();
     }
 
+    /**
+     * Create manifest file for document
+     * @param bigDocument
+     * @param bigDocumentFilename
+     * @return
+     */
     private String createManifestFromDocument(String bigDocument, String bigDocumentFilename) {
         manifestCreatorStep.setDocumentFilename(bigDocumentFilename);
         manifestCreatorStep.setDocumentContent(bigDocument);
@@ -72,6 +93,11 @@ public class DocumentProcessor extends AbstractDocumentProcessor implements Docu
         return documentFilenameStep.getDocumentFilename();
     }
 
+    /**
+     * Join files
+     * @param documentsList
+     * @return
+     */
     private String joinFiles(List<File> documentsList) {
         documentJoinStep.setFiles(documentsList);
         runStep(documentJoinStep);

@@ -3,6 +3,9 @@ package uk.gov.dvsa.moti.web.views.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tabular data representation. Consists of header and rows.
+ */
 public class SummaryTable {
     private String heading;
     private List<SummaryRow> rows = new ArrayList<>();
@@ -15,6 +18,12 @@ public class SummaryTable {
         return heading;
     }
 
+    /**
+     * Add row to collection
+     * @param key
+     * @param value
+     * @return
+     */
     public SummaryTable addRow(String key, String value) {
         rows.add(new SummaryRow(key, value));
 

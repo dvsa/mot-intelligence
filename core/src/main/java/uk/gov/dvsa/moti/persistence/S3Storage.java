@@ -1,14 +1,15 @@
 package uk.gov.dvsa.moti.persistence;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class S3Storage implements FileStorage {
-    protected AmazonS3Client client;
+    protected AmazonS3 client;
     private String storeRoot;
     protected String bucket;
 
@@ -32,11 +33,11 @@ public class S3Storage implements FileStorage {
         this.bucket = bucket;
         this.storeRoot = prefix;
 
-        AWSCredentials clientCredentials = accesspath != null && !accesspath.equals("")
-                ? new BasicAWSCredentials(accesspath, secretpath)
-                : new DefaultAWSCredentialsProviderChain().getCredentials();
+        AmazonS3ClientBuilder amazonS3ClientBuilder = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_WEST_1);
 
-        client = new AmazonS3Client(clientCredentials);
+        client = accesspath != null && !accesspath.equals("")
+            ? amazonS3ClientBuilder.withCredentials(new DefaultAWSCredentialsProviderChain()).build()
+            : amazonS3ClientBuilder.withCredentials(new InstanceProfileCredentialsProvider(false)).build();
     }
 
     @Override

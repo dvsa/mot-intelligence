@@ -9,6 +9,6 @@ webapp/build/*
 /processor/processor.iml
 /webapp/webapp.iml
 /moti-selenium/moti-selenium.iml
-/processor/config.yml
-/webapp/config.yml
+/processor/config.yaml
+/webapp/config.yaml
 /moti-selenium/selenium-screenshots/*

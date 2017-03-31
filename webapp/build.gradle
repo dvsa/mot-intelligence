@@ -127,7 +127,7 @@ task BuildRpm(type: Rpm) {
     postUninstall file('scripts/rpm/postUninstall')
 
     from('config.yml.dist') {
-      into '/etc/dvsa/moti-webapp/conf'
+      into '/etc/dvsa/moti-webapp'
       rename { String fileName ->
           fileName.replace('config.yml.dist', 'config.yml')
       }

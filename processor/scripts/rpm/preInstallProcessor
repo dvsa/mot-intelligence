@@ -1,11 +1,11 @@
 # $1 value gets 1 when first install and 2 when update and reinstall
 set -o nounset
-# UID and GID have to be hardtyped!
-ID=5001
+# UID and GID have to be hardtyped! ### WHY?!
+ID=5002
 # User and group
-USER=moti-webapp
-GROUP=moti-webapp
-APP=moti-webapp
+USER=moti-processor
+GROUP=moti-processor
+APP=moti-processor
 
 if [ $1 -eq 1 ] ; then
   if ! getent group | grep -q "^$GROUP:" ;
@@ -21,6 +21,6 @@ if [ $1 -eq 1 ] ; then
     #useradd --gid $GROUP -u $ID -G service_account --no-create-home -s /bin/false -c 'MOT intelligence service' $USER
     #Simplified version, without UID and special group for services
     mkdir -p /opt/dvsa
-    useradd --gid $GROUP -d /opt/dvsa/$APP -s /bin/false -c 'MOT intelligence service' $USER
+    useradd --gid $GROUP -d /opt/dvsa/$APP -s /bin/false -c 'DVSA MOT Intelligence Processor Service' $USER
   fi
 fi

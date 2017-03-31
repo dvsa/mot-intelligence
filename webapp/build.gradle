@@ -121,13 +121,13 @@ task BuildRpm(type: Rpm) {
     os LINUX
     type BINARY
 
-    preInstall file('../scripts/rpm/preInstall')
-    postInstall file('../scripts/rpm/postInstall')
-    preUninstall file('../scripts/rpm/preUninstall')
-    postUninstall file('../scripts/rpm/postUninstall')
+    preInstall file('scripts/rpm/preInstall')
+    postInstall file('scripts/rpm/postInstall')
+    preUninstall file('scripts/rpm/preUninstall')
+    postUninstall file('scripts/rpm/postUninstall')
 
     from('config.yml.dist') {
-      into '/etc/dvsa/moti-webapp/'
+      into '/etc/dvsa/moti-webapp/conf'
       rename { String fileName ->
           fileName.replace('config.yml.dist', 'config.yml')
       }
@@ -137,7 +137,7 @@ task BuildRpm(type: Rpm) {
       fileType CONFIG | NOREPLACE
     }
 
-    from ('../scripts/init') {
+    from ('scripts/init') {
        into 'bin'
        user 'root'
        permissionGroup 'root'

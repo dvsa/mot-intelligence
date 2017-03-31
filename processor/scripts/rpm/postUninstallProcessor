@@ -1,11 +1,11 @@
 # $1 value gets 0 when erase install and 1 when update
 # User and group
 set -o nounset
-USER=moti-webapp
-GROUP=moti-webapp
-DIR=/opt/dvsa/moti-webapp
-CONF_DIR=/etc/dvsa/moti-webapp
-APP=moti-webapp
+USER=moti-processor
+GROUP=moti-processor
+DIR=/opt/dvsa/moti-processor
+CONF_DIR=/etc/dvsa/moti-processor
+APP=moti-processor
 if [ $1 -eq 0 ] ; then
   echo "Try deleting system user and group [$USER:$GROUP]"
   if getent passwd | grep -q "^$USER:";

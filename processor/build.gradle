@@ -108,43 +108,43 @@ task integrationTest(type: Test) {
 
 // BuildNumber has to be set by -PBuildNumber or ORG_GRADLE_PROJECT_BuildNumber env var
 task BuildRpm(type: Rpm) {
-    packageName 'moti-webapp-processor'
+    packageName 'moti-processor'
     version = project.version
     release = project.hasProperty('BuildNumber') ? BuildNumber : 'dev'
     packageDescription = project.hasProperty('DescriptionRPM') ? DescriptionRPM: 'none'
-    user 'moti-webapp'
-    permissionGroup 'moti-webapp'
+    user 'moti-processor'
+    permissionGroup 'moti-processor'
     license 'Proprietary'
     url 'https://gitlab.motdev.org.uk/moti/mot-intelligence'
     arch X86_64
     os LINUX
     type BINARY
 
-    preInstall file('../scripts/rpm/preInstallProcessor')
-    postInstall file('../scripts/rpm/postInstallProcessor')
-    postUninstall file('../scripts/rpm/postUninstallProcessor')
+    preInstall file('scripts/rpm/preInstall')
+    postInstall file('scripts/rpm/postInstall')
+    postUninstall file('scripts/rpm/postUninstall')
 
     from('config.yml.dist') {
-      into '/etc/dvsa/moti-webapp/'
+      into '/etc/dvsa/moti-processor/conf/'
       rename { String fileName ->
           fileName.replace('config.yml.dist', 'config.yml')
       }
       fileMode 0750
       user 'root'
-      permissionGroup 'moti-webapp'
+      permissionGroup 'moti-processor'
       fileType CONFIG | NOREPLACE
     }
 
-    into '/opt/dvsa/moti-webapp'
+    into '/opt/dvsa/moti-processor'
     from ('build/libs/moti-processor-all.jar') {
       fileMode 0750
       user 'root'
-      permissionGroup 'moti-webapp'
+      permissionGroup 'moti-processor'
       into 'lib'
     }
 
     requires ('java-1.8.0-openjdk', '1.8.0.65', GREATER | EQUAL)
-    link ('/opt/dvsa/moti-webapp/log', '/var/log/dvsa/moti-webapp')
-    link ('/opt/dvsa/moti-webapp/conf', '/etc/dvsa/moti-webapp')
+    link ('/opt/dvsa/moti-processor/log', '/var/log/dvsa/moti-processor')
+    link ('/opt/dvsa/moti-processor/conf', '/etc/dvsa/moti-processor')
 }
 

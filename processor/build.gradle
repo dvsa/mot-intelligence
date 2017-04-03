@@ -104,6 +104,8 @@ task integrationTest(type: Test) {
     group = 'verification'
     description = 'Runs the integration tests.'
     systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "config.yaml"
+    systemProperty "aws.accessKeyId", System.getProperty("aws.accessKeyId")
+    systemProperty "aws.secretKey", System.getProperty("aws.secretKey")
 }
 
 // BuildNumber has to be set by -PBuildNumber or ORG_GRADLE_PROJECT_BuildNumber env var

@@ -11,8 +11,8 @@ public class S3StorageHealthChecker extends S3Storage {
 
     private static Logger logger = LoggerFactory.getLogger(S3StorageHealthChecker.class);
 
-    public S3StorageHealthChecker(String bucket, String prefix, String accesspath, String secretpath) {
-        super(bucket, prefix, accesspath, secretpath);
+    public S3StorageHealthChecker(String bucket, String prefix) {
+        super(bucket, prefix);
     }
 
     public boolean ping(){

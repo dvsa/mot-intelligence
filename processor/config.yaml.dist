@@ -1,12 +1,8 @@
 s3:
     sourceBucket:
-        accessKey:
-        secretKey:
         bucket: mot-intelligence-fb
         rootFolder: root/
     destinationBucket:
-        accessKey:
-        secretKey:
         bucket: mot-intelligence-fb
         rootFolder: root/
 storage:

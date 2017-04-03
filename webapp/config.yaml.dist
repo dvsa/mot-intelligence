@@ -28,8 +28,6 @@ server:
       - type: http
         port: 8081
 s3:
-  accessKey:
-  secretKey:
   bucket: mot-intelligence-fb
   rootFolder: root/
 

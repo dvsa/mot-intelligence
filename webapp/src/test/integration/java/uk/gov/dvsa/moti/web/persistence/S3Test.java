@@ -1,7 +1,6 @@
 package uk.gov.dvsa.moti.web.persistence;
 
 
-import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 
 import org.junit.Assert;
@@ -28,10 +27,8 @@ public class S3Test extends IntegrationTestBase {
     public void returnsValidationErrorWithValidData() throws IOException {
         String bucket = configuration.getS3Configuration().getBucket();
         String rootFolder = configuration.getS3Configuration().getRootFolder();
-        String accessKey = configuration.getS3Configuration().getAccessKey();
-        String secretKey = configuration.getS3Configuration().getSecretKey();
 
-        FileStorage storage = new S3Storage(bucket, rootFolder, accessKey, secretKey);
+        FileStorage storage = new S3Storage(bucket, rootFolder);
 
         String expectedMessage1 = "Sample Message";
         String path1 = "sample-folder/testFile.txt";

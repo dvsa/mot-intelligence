@@ -22,9 +22,7 @@ public class FraudSenderFactory implements Factory<FraudSender> {
 
         FileStorage fileStorage = new S3Storage(
                 privateS3BucketConfiguration.getBucket(),
-                privateS3BucketConfiguration.getRootFolder(),
-                privateS3BucketConfiguration.getAccessKey(),
-                privateS3BucketConfiguration.getSecretKey()
+                privateS3BucketConfiguration.getRootFolder()
         );
 
         FraudSerializer fraudSerializer = new FraudSerializer();

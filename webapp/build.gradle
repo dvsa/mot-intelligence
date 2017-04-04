@@ -51,7 +51,7 @@ task integrationTest(type: Test) {
     classpath = sourceSets.integrationTest.runtimeClasspath
     group = 'verification'
     description = 'Runs the integration tests.'
-    systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "config.yml"
+    systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "config.yaml"
 }
 
 repositories {
@@ -92,7 +92,7 @@ shadowJar {
 }
 
 run {
-    args 'server', 'config.yml'
+    args 'server', 'config.yaml'
 }
 
 apply plugin: 'nebula.rpm'
@@ -126,10 +126,10 @@ task BuildRpm(type: Rpm) {
     preUninstall file('scripts/rpm/preUninstall')
     postUninstall file('scripts/rpm/postUninstall')
 
-    from('config.yml.dist') {
+    from('config.yaml.dist') {
       into '/etc/dvsa/moti-webapp'
       rename { String fileName ->
-          fileName.replace('config.yml.dist', 'config.yml')
+          fileName.replace('config.yaml.dist', 'config.yaml')
       }
       fileMode 0750
       user 'root'

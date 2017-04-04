@@ -83,7 +83,7 @@ shadowJar {
 }
 
 run {
-    args 'config.yml'
+    args 'config.yaml'
 }
 
 apply plugin: 'nebula.rpm'
@@ -103,7 +103,7 @@ task integrationTest(type: Test) {
     classpath = sourceSets.integrationTest.runtimeClasspath
     group = 'verification'
     description = 'Runs the integration tests.'
-    systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "config.yml"
+    systemProperty "configurationFilePath", System.getProperty("configurationFilePath")!=null ? System.getProperty("configurationFilePath") :  "config.yaml"
 }
 
 // BuildNumber has to be set by -PBuildNumber or ORG_GRADLE_PROJECT_BuildNumber env var
@@ -124,10 +124,10 @@ task BuildRpm(type: Rpm) {
     postInstall file('scripts/rpm/postInstall')
     postUninstall file('scripts/rpm/postUninstall')
 
-    from('config.yml.dist') {
+    from('config.yaml.dist') {
       into '/etc/dvsa/moti-processor'
       rename { String fileName ->
-          fileName.replace('config.yml.dist', 'config.yml')
+          fileName.replace('config.yaml.dist', 'config.yaml')
       }
       fileMode 0750
       user 'root'

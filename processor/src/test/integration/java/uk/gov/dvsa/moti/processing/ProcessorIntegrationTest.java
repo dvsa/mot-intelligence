@@ -38,16 +38,12 @@ public class ProcessorIntegrationTest extends IntegrationTestBase {
 
         sourceStorage = new S3Storage(
                 configuration.getS3Configuration().getSourceBucket().getBucket(),
-                configuration.getS3Configuration().getSourceBucket().getRootFolder(),
-                configuration.getS3Configuration().getSourceBucket().getAccessKey(),
-                configuration.getS3Configuration().getSourceBucket().getSecretKey()
+                configuration.getS3Configuration().getSourceBucket().getRootFolder()
         );
 
         destinationStorage = new S3Storage(
                 configuration.getS3Configuration().getDestinationBucket().getBucket(),
-                configuration.getS3Configuration().getDestinationBucket().getRootFolder(),
-                configuration.getS3Configuration().getDestinationBucket().getAccessKey(),
-                configuration.getS3Configuration().getDestinationBucket().getSecretKey()
+                configuration.getS3Configuration().getDestinationBucket().getRootFolder()
         );
 
         FraudSerializer fraudSerializer = new FraudSerializer();

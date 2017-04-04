@@ -16,9 +16,7 @@ public class MotiHealthCheck extends HealthCheck implements Gauge {
 
         s3Storage = new S3StorageHealthChecker(
                 privateS3BucketConfiguration.getBucket(),
-                privateS3BucketConfiguration.getRootFolder(),
-                privateS3BucketConfiguration.getAccessKey(),
-                privateS3BucketConfiguration.getSecretKey()
+                privateS3BucketConfiguration.getRootFolder()
         );
     }
 

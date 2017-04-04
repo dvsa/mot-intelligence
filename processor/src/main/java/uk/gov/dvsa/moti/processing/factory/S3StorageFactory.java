@@ -26,18 +26,10 @@ public class S3StorageFactory {
     }
 
     private S3Storage getS3BucketStorage(S3BucketConfiguration bucketConfiguration) {
-        if (bucketConfiguration.getSecretKey() == null || bucketConfiguration.getAccessKey() == null) {
-            return new S3Storage(
-                    bucketConfiguration.getBucket(),
-                    bucketConfiguration.getRootFolder()
-            );
-        } else {
-            return new S3Storage(
-                    bucketConfiguration.getBucket(),
-                    bucketConfiguration.getRootFolder(),
-                    bucketConfiguration.getAccessKey(),
-                    bucketConfiguration.getSecretKey()
-            );
-        }
+
+        return new S3Storage(
+                bucketConfiguration.getBucket(),
+                bucketConfiguration.getRootFolder()
+        );
     }
 }

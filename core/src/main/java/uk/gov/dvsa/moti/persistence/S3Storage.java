@@ -1,43 +1,36 @@
 package uk.gov.dvsa.moti.persistence;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class S3Storage implements FileStorage {
-    protected AmazonS3Client client;
+
+    /**
+     * Client will search for credentials in env variables, system properties, credentials file, or instance profile credentials
+     * @link http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/java-dg-roles.html
+     */
+    protected AmazonS3 client;
     private String storeRoot;
     protected String bucket;
 
     public S3Storage(String bucket, String prefix) {
-        this(bucket, prefix, null, null);
-    }
-
-    public S3Storage(String bucket, String prefix, String accesspath, String secretpath) {
         this.bucket = bucket;
         this.storeRoot = prefix;
-
-        AWSCredentials clientCredentials = accesspath != null && !accesspath.equals("")
-                ? new BasicAWSCredentials(accesspath, secretpath)
-                : new DefaultAWSCredentialsProviderChain().getCredentials();
-
-        client = new AmazonS3Client(clientCredentials);
+        client = AmazonS3ClientBuilder.standard().build();
     }
 
     @Override

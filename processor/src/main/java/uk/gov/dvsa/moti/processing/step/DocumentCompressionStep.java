@@ -6,6 +6,9 @@ import uk.gov.dvsa.moti.processing.executor.DocumentCompressorInterface;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * Compress documents
+ */
 public class DocumentCompressionStep implements StepInterface {
     private byte[] documentContent;
     private String documentFilename;

@@ -16,6 +16,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Loads session from cookie
+ */
 public class SessionFilter implements Filter {
     private FilterConfig filterConfig;
 
@@ -36,7 +39,7 @@ public class SessionFilter implements Filter {
             SessionCookieStorage sessionCookieStorage = new SessionCookieStorage();
 
             try {
-                sessionCookieStorage.getSessionFromCookie(httpRequest);
+                sessionCookieStorage.loadSessionFromCookie(httpRequest);
             } catch (ClassNotFoundException ex) {
                 logger.error(ex.getMessage());
                 throw new FilterException("Not able to encode incoming data", ex);

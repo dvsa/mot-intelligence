@@ -7,6 +7,9 @@ import uk.gov.dvsa.moti.configuration.ConfigFileReader;
 import uk.gov.dvsa.moti.configuration.ConfigurationException;
 import uk.gov.dvsa.moti.processing.configuration.model.ProcessorConfiguration;
 
+/**
+ * Loads configuration from file and maps to specific configuration classes
+ */
 public class ConfigLoader {
     private ConfigFileReader configFileReader = new ConfigFileReader();
     private static Logger logger = LoggerFactory.getLogger(ConfigLoader.class);

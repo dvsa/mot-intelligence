@@ -6,6 +6,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Creates HttpSession
+ */
 public class HttpSessionFactory implements Factory<HttpSession> {
     private final HttpServletRequest request;
 

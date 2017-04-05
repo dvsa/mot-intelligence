@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
 import java.io.IOException;
 
+/**
+ * Honeypot filter is runned for every POST request and checks if special form value has been sent in request.
+ * Use it with honey_pot helper from FormHelpersBundle
+ */
 public class HoneypotFilter implements Filter {
 
     public static final String FIELD_NAME = "whenisayhoneyyousaypot";

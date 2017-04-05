@@ -13,6 +13,9 @@ import uk.gov.dvsa.moti.persistence.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Joins documents into batch file
+ */
 public class DocumentJoiner {
     private static Logger logger = LoggerFactory.getLogger(DocumentJoiner.class);
     private BatchFraudSerializer batchFraudSerializer;
@@ -27,6 +30,11 @@ public class DocumentJoiner {
         this.fraudSerializer = fraudSerializer;
     }
 
+    /**
+     * Join files
+     * @param files
+     * @return
+     */
     public String joinFiles(List<File> files) {
         String output;
         ArrayList<Fraud> fraudList = new ArrayList<>();

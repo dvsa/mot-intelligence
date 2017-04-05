@@ -4,6 +4,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Root element in exported xml
+ */
 @XmlRootElement(name="xml")
 @XmlType(propOrder={"schema", "data"})
 public class Root {

@@ -9,9 +9,17 @@ import uk.gov.dvsa.moti.processing.executor.ProcessorException;
 
 import java.util.HashMap;
 
+/**
+ * Runs steps
+ */
 public class StepRunner {
     private static Logger logger = LoggerFactory.getLogger(StepRunner.class);
 
+    /**
+     * Run single step
+     * @param step
+     * @param retryCount how many times retry step when it fails
+     */
     public void runWithRetry(StepInterface step, int retryCount) {
         for (int i = 0; i <= retryCount; i++) {
             logger.info(Markers.append("context", new HashMap.SimpleEntry<>("iteration", i)), step.getStepName() + ": iteration " + i);

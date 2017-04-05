@@ -10,6 +10,13 @@ import java.io.IOException;
 public class CookiePolicyUrlViewHelper implements Helper<View>{
     public static final String NAME = "url_cookie_policy";
 
+    /**
+     * Render cookie policy url
+     * @param context
+     * @param options
+     * @return
+     * @throws IOException
+     */
     public String apply(View context, Options options) throws IOException {
 
         return FraudRoutes.getCookiePolicyPath();

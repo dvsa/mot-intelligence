@@ -8,6 +8,9 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Fraud element (single row in fraud report)
+ */
 @XmlRootElement(name="row")
 public class Fraud implements Serializable {
 

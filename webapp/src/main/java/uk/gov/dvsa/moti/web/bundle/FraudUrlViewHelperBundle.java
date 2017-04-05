@@ -5,6 +5,9 @@ import io.dropwizard.Configuration;
 import uk.gov.dvsa.moti.web.bundle.helper.CookiePolicyUrlViewHelper;
 import uk.gov.dvsa.moti.web.bundle.helper.FormUrlViewHelper;
 
+/**
+ * Fraud url helpers bundle
+ */
 public class FraudUrlViewHelperBundle extends HandlebarsHelperBundle {
 
     @Override

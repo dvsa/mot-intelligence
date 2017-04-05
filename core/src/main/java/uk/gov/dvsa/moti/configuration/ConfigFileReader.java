@@ -12,6 +12,13 @@ import java.util.stream.Collectors;
 
 public class ConfigFileReader {
 
+    /**
+     * Read configuration from given file
+     * @param filePath path to file storing configuration
+     * @param valueType class which configuration is being mapped to
+     * @param <T>
+     * @return
+     */
     public <T> T read(String filePath, Class<T> valueType) {
         validateIfNotDistFile(filePath);
 
@@ -29,12 +36,22 @@ public class ConfigFileReader {
         }
     }
 
+    /**
+     * Check if file is not .dist file
+     * @param filePath
+     */
     private void validateIfNotDistFile(String filePath) {
         if (filePath.endsWith(".dist")) {
             throw new ConfigurationException("Cannot load configuration from .dist file.");
         }
     }
 
+    /**
+     * Read file contents
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
     private String readFileToEnd(String filePath) throws IOException {
         return Files.readAllLines(Paths.get(filePath))
                 .stream()

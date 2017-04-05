@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.processing.configuration.model;
 
+/**
+ * File storage configuration
+ */
 public class StorageConfiguration {
     private String downloadedFilesPrefix;
     private Integer maxDownloadedFilesLimit;

@@ -16,6 +16,9 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
+/**
+ *  CSRF Token filter
+ */
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class CsrfTokenFilter implements ContainerRequestFilter {

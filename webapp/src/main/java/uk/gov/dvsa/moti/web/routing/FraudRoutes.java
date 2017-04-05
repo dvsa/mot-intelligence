@@ -3,6 +3,9 @@ package uk.gov.dvsa.moti.web.routing;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
+/**
+ * Helper class with FraudResource routes
+ */
 public class FraudRoutes {
     public static final String ROOT = "/fraud";
     public static final String SUMMARY = "/summary";

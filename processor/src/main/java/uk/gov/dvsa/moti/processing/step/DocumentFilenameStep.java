@@ -4,6 +4,9 @@ import com.google.inject.Inject;
 
 import uk.gov.dvsa.moti.processing.executor.ManifestCreator;
 
+/**
+ * Create docuemnt file name
+ */
 public class DocumentFilenameStep implements StepInterface {
     private ManifestCreator manifestCreator;
     private String documentFilename;

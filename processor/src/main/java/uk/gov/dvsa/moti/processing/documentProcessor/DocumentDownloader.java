@@ -8,6 +8,9 @@ import uk.gov.dvsa.moti.processing.step.StepRunner;
 
 import java.util.List;
 
+/**
+ * Download documents
+ */
 public class DocumentDownloader extends AbstractDocumentProcessor implements DocumentDownloaderInterface {
     private DocumentsDownloadStep documentsDownloadStep;
 

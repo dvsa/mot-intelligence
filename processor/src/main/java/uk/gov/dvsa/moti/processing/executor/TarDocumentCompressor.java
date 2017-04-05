@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.zip.GZIPOutputStream;
 
+/**
+ * Compresses files in TAR
+ */
 public class TarDocumentCompressor implements DocumentCompressorInterface {
     private static Logger logger = LoggerFactory.getLogger(TarDocumentCompressor.class);
     private String manifestFileName;
@@ -27,6 +30,13 @@ public class TarDocumentCompressor implements DocumentCompressorInterface {
         this.manifestFileName = tarFileConfiguration.getManifestFileName();
     }
 
+    /**
+     * Create TAR archive from document and manifest files
+     * @param documentContent
+     * @param documentFilename
+     * @param manifestContent
+     * @return
+     */
     public byte[] compressFiles(byte[] documentContent, String documentFilename, byte[] manifestContent) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
@@ -44,6 +54,12 @@ public class TarDocumentCompressor implements DocumentCompressorInterface {
         return outputStream.toByteArray();
     }
 
+    /**
+     * Add file to TAR archive
+     * @param tarOutput
+     * @param fileName
+     * @param fileContent
+     */
     private void addEntry(TarArchiveOutputStream tarOutput, String fileName, byte[] fileContent) {
         TarArchiveEntry xmlEntry = new TarArchiveEntry(fileName);
         xmlEntry.setSize(fileContent.length);

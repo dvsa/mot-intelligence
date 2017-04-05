@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.processing.executor;
 
+/**
+ * Exception thrown in processor
+ */
 public class ProcessorException extends RuntimeException {
     public ProcessorException() {
         super();

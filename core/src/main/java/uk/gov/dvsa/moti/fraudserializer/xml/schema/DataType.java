@@ -3,6 +3,9 @@ package uk.gov.dvsa.moti.fraudserializer.xml.schema;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * DataType element
+ */
 @XmlRootElement
 public class DataType {
     public static final String NAMESPACE_DATATYPE = "uuid:C2F41010-65B3-11d1-A29F-00AA00C14882";

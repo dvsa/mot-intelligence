@@ -7,6 +7,9 @@ import uk.gov.dvsa.moti.processing.executor.DocumentStorage;
 
 import java.util.List;
 
+/**
+ * Downloads documents
+ */
 public class DocumentsDownloadStep implements StepInterface {
     private DocumentStorage documentStorage;
     private List<File> files;

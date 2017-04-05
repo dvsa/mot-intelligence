@@ -8,6 +8,9 @@ import uk.gov.dvsa.moti.processing.step.StepRunner;
 
 import java.util.List;
 
+/**
+ * Delete documents
+ */
 public class DocumentDeleter extends AbstractDocumentProcessor implements DocumentDeleterInterface {
     private DocumentDeleteStep documentDeleteStep;
 

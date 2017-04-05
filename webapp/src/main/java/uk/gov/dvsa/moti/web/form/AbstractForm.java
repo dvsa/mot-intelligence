@@ -7,6 +7,9 @@ import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract representation of form
+ */
 public abstract class AbstractForm {
 
     protected List<AbstractFormElement> formElements = new ArrayList<>();

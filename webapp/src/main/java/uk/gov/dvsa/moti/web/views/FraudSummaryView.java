@@ -8,6 +8,9 @@ import uk.gov.dvsa.moti.web.form.element.HiddenElement;
 import uk.gov.dvsa.moti.web.model.FraudModel;
 import uk.gov.dvsa.moti.web.views.model.SummaryTable;
 
+/**
+ * Report fraud summary page
+ */
 public class FraudSummaryView extends View {
     private FraudModel model;
     private String backLink;

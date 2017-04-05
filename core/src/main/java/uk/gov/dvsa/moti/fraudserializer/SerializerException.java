@@ -1,5 +1,8 @@
 package uk.gov.dvsa.moti.fraudserializer;
 
+/**
+ * Exception thrown by FraudSerializer and BatchFraudSerializer
+ */
 public class SerializerException extends RuntimeException {
     public SerializerException() {
         super();

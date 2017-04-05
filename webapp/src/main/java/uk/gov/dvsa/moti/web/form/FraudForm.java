@@ -7,6 +7,9 @@ import uk.gov.dvsa.moti.web.model.FraudModel;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
+/**
+ * Report MOT Fraud form
+ */
 public class FraudForm extends AbstractForm {
 
     private FraudModel model;

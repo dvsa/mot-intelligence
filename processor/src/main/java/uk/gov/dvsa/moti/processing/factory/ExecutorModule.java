@@ -21,6 +21,9 @@ import uk.gov.dvsa.moti.processing.documentProcessor.DocumentProcessorInterface;
 import uk.gov.dvsa.moti.processing.documentProcessor.DocumentUploader;
 import uk.gov.dvsa.moti.processing.documentProcessor.DocumentUploaderInterface;
 
+/**
+ * ExecutorModule configures dependencies for application
+ */
 public class ExecutorModule extends AbstractModule {
 
     private ProcessorConfiguration configuration;

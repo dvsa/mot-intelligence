@@ -2,6 +2,9 @@ package uk.gov.dvsa.moti.processing.configuration.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Processor configuration, container for other configuration parts
+ */
 public class ProcessorConfiguration {
     @JsonProperty("s3")
     private S3Configuration s3configuration;

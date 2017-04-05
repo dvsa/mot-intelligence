@@ -9,6 +9,9 @@ import java.io.Serializable;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 
+/**
+ * Fraud model used in report fraud form
+ */
 public class FraudModel implements Serializable {
     public static final String PARAM_CSRF = "csrfToken";
     public static final String PARAM_VEHICLE_REG = "vehicleReg";

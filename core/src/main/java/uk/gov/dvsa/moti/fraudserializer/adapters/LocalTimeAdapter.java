@@ -6,6 +6,9 @@ import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * Handling LocalTime in JAXB
+ */
 public class LocalTimeAdapter extends XmlAdapter<String, LocalTime> {
 
     private final static DateTimeFormatter formatter = DateTimeFormat.mediumTime();

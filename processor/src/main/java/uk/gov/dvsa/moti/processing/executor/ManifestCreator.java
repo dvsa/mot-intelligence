@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Creates manifest file for fraud report
+ */
 public class ManifestCreator {
     public static final String DATE_FORMAT = "yyyyMMddHHss";
     private static Logger logger = LoggerFactory.getLogger(ManifestCreator.class);
@@ -23,6 +26,12 @@ public class ManifestCreator {
         logger.info("Exported xml is going to be named: " + documentFilename);
     }
 
+    /**
+     * Creates manifest file
+     * @param documentContent
+     * @param documentFilename
+     * @return
+     */
     public String createManifest(String documentContent, String documentFilename) {
         String manifestContent = String.format("%s %s", shaHasher.sha256(documentContent), documentFilename);
         logger.info("Content of the manifest file:" + manifestContent);

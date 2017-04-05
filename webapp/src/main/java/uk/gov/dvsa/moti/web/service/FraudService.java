@@ -33,11 +33,20 @@ public class FraudService {
         this.fraudSender = fraudSender;
     }
 
+    /**
+     * Display form
+     * @return
+     */
     public FraudFormView displayForm() {
         FraudModel model = getModel();
         return new FraudFormView(createForm(model));
     }
 
+    /**
+     * Validate data
+     * @param model
+     * @return
+     */
     public Optional<FraudFormView> validateData(FraudModel model) {
         FraudForm form = createForm(model);
         if (form.isValid()) {
@@ -49,6 +58,10 @@ public class FraudService {
         return Optional.of(new FraudFormView(form));
     }
 
+    /**
+     * Display summary view when data is valid
+     * @return
+     */
     public Optional<FraudSummaryView> displaySummary() {
         if (isDataValid()) {
             FraudModel model = getModel();
@@ -59,6 +72,11 @@ public class FraudService {
         return Optional.empty();
     }
 
+    /**
+     * Send report
+     * @param formUuid
+     * @return
+     */
     public boolean sendReport(String formUuid) {
         if (isDataValid()) {
             FraudModel model = getModel();
@@ -70,6 +88,11 @@ public class FraudService {
         return false;
     }
 
+    /**
+     * Display success page
+     * @param response
+     * @return
+     */
     public Optional<FraudSuccessView> displaySuccessPage(HttpServletResponse response){
         if (isDataValid()) {
             sessionResource.remove();
@@ -80,15 +103,28 @@ public class FraudService {
         return Optional.empty();
     }
 
+    /**
+     * Create form
+     * @param model
+     * @return
+     */
     private FraudForm createForm(FraudModel model) {
         return new FraudForm(model);
     }
 
+    /**
+     * Validate data
+     * @return
+     */
     private boolean isDataValid() {
         FraudModel model = getModel();
         return createForm(model).isValid();
     }
 
+    /**
+     * Get model from session or create new model
+     * @return
+     */
     private FraudModel getModel() {
         FraudModel model = sessionResource.get();
         if (model == null) {

@@ -13,6 +13,9 @@ import uk.gov.dvsa.moti.web.form.element.AbstractFormElement;
 
 import java.io.IOException;
 
+/**
+ * Form view helpers bundle
+ */
 public class FormHelpersBundle extends HandlebarsHelperBundle {
 
     private Handlebars handlebars;
@@ -38,6 +41,10 @@ public class FormHelpersBundle extends HandlebarsHelperBundle {
         });
     }
 
+    /**
+     * Returns or creates new Handlebars if it doesn't exist
+     * @return Handlebars
+     */
     private Handlebars getHandlebars() {
         if (handlebars == null) {
             handlebars = createHandlebars();
@@ -46,6 +53,10 @@ public class FormHelpersBundle extends HandlebarsHelperBundle {
         return handlebars;
     }
 
+    /**
+     * Creates new Handlebars instance and sets prefix path
+     * @return Handlebars
+     */
     private Handlebars createHandlebars() {
         TemplateLoader loader = new ClassPathTemplateLoader();
         loader.setPrefix("/uk/gov/dvsa/moti/web/views/partials/form/");

@@ -10,12 +10,12 @@ Defines interfaces and behaviors shared between **processor** and **webapp** (e.
 ## Webapp
 Web Frontend application. Displays and validates fraud report entered by user and then sends it to temporary storage.
 
-###Run
+### Run
 ```
 ./gradlew webapp:run
 ```
 
-###Tests
+### Tests
 ```
 ./gradlew webapp:test
 ./gradlew webapp:integrationTest
@@ -24,17 +24,17 @@ Web Frontend application. Displays and validates fraud report entered by user an
 ## Processor
 Application runned in a repetitive way. It fetches fraud reports from temporary storage, creates archive of batch fraud reports and sends it to final destination.
 
-###Run
+### Run
 ```
 ./gradlew processor:run
 ```
 
-###Tests
+### Tests
 ```
 ./gradlew processor:test
 ./gradlew processor:integrationTest
 ```
-###Integration with OLCS
+### Integration with OLCS
 Fraud reports are on production are being sent as one XML file to OLCS S3 Bucket.
 
 XML file uses MS SQL Export format.
